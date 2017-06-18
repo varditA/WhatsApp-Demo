@@ -80,6 +80,24 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Client.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Client.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Server.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Server.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsApp.cpp">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsApp.h">
+			<Option target="src"/>
+		</Unit>
 		<Unit filename="/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/main.cpp">
 			<Option target="src"/>
 		</Unit>

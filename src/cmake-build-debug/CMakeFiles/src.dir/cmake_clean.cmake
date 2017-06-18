@@ -1,5 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/src.dir/main.cpp.o"
+  "CMakeFiles/src.dir/Client.cpp.o"
+  "CMakeFiles/src.dir/Server.cpp.o"
+  "CMakeFiles/src.dir/WhatsApp.cpp.o"
   "src.pdb"
   "src"
 )
