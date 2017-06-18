@@ -81,92 +81,92 @@ CMakeFiles/src.dir/main.cpp.o.provides: CMakeFiles/src.dir/main.cpp.o.requires
 CMakeFiles/src.dir/main.cpp.o.provides.build: CMakeFiles/src.dir/main.cpp.o
 
 
-CMakeFiles/src.dir/Client.cpp.o: CMakeFiles/src.dir/flags.make
-CMakeFiles/src.dir/Client.cpp.o: ../Client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/src.dir/Client.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src.dir/Client.cpp.o -c /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Client.cpp
+CMakeFiles/src.dir/WhatsappClient.cpp.o: CMakeFiles/src.dir/flags.make
+CMakeFiles/src.dir/WhatsappClient.cpp.o: ../WhatsappClient.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/src.dir/WhatsappClient.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src.dir/WhatsappClient.cpp.o -c /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappClient.cpp
 
-CMakeFiles/src.dir/Client.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src.dir/Client.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Client.cpp > CMakeFiles/src.dir/Client.cpp.i
+CMakeFiles/src.dir/WhatsappClient.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src.dir/WhatsappClient.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappClient.cpp > CMakeFiles/src.dir/WhatsappClient.cpp.i
 
-CMakeFiles/src.dir/Client.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src.dir/Client.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Client.cpp -o CMakeFiles/src.dir/Client.cpp.s
+CMakeFiles/src.dir/WhatsappClient.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src.dir/WhatsappClient.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappClient.cpp -o CMakeFiles/src.dir/WhatsappClient.cpp.s
 
-CMakeFiles/src.dir/Client.cpp.o.requires:
+CMakeFiles/src.dir/WhatsappClient.cpp.o.requires:
 
-.PHONY : CMakeFiles/src.dir/Client.cpp.o.requires
+.PHONY : CMakeFiles/src.dir/WhatsappClient.cpp.o.requires
 
-CMakeFiles/src.dir/Client.cpp.o.provides: CMakeFiles/src.dir/Client.cpp.o.requires
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Client.cpp.o.provides.build
-.PHONY : CMakeFiles/src.dir/Client.cpp.o.provides
+CMakeFiles/src.dir/WhatsappClient.cpp.o.provides: CMakeFiles/src.dir/WhatsappClient.cpp.o.requires
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappClient.cpp.o.provides.build
+.PHONY : CMakeFiles/src.dir/WhatsappClient.cpp.o.provides
 
-CMakeFiles/src.dir/Client.cpp.o.provides.build: CMakeFiles/src.dir/Client.cpp.o
-
-
-CMakeFiles/src.dir/Server.cpp.o: CMakeFiles/src.dir/flags.make
-CMakeFiles/src.dir/Server.cpp.o: ../Server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/src.dir/Server.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src.dir/Server.cpp.o -c /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Server.cpp
-
-CMakeFiles/src.dir/Server.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src.dir/Server.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Server.cpp > CMakeFiles/src.dir/Server.cpp.i
-
-CMakeFiles/src.dir/Server.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src.dir/Server.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Server.cpp -o CMakeFiles/src.dir/Server.cpp.s
-
-CMakeFiles/src.dir/Server.cpp.o.requires:
-
-.PHONY : CMakeFiles/src.dir/Server.cpp.o.requires
-
-CMakeFiles/src.dir/Server.cpp.o.provides: CMakeFiles/src.dir/Server.cpp.o.requires
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Server.cpp.o.provides.build
-.PHONY : CMakeFiles/src.dir/Server.cpp.o.provides
-
-CMakeFiles/src.dir/Server.cpp.o.provides.build: CMakeFiles/src.dir/Server.cpp.o
+CMakeFiles/src.dir/WhatsappClient.cpp.o.provides.build: CMakeFiles/src.dir/WhatsappClient.cpp.o
 
 
-CMakeFiles/src.dir/WhatsApp.cpp.o: CMakeFiles/src.dir/flags.make
-CMakeFiles/src.dir/WhatsApp.cpp.o: ../WhatsApp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/src.dir/WhatsApp.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src.dir/WhatsApp.cpp.o -c /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsApp.cpp
+CMakeFiles/src.dir/WhatsappServer.cpp.o: CMakeFiles/src.dir/flags.make
+CMakeFiles/src.dir/WhatsappServer.cpp.o: ../WhatsappServer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/src.dir/WhatsappServer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src.dir/WhatsappServer.cpp.o -c /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappServer.cpp
 
-CMakeFiles/src.dir/WhatsApp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src.dir/WhatsApp.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsApp.cpp > CMakeFiles/src.dir/WhatsApp.cpp.i
+CMakeFiles/src.dir/WhatsappServer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src.dir/WhatsappServer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappServer.cpp > CMakeFiles/src.dir/WhatsappServer.cpp.i
 
-CMakeFiles/src.dir/WhatsApp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src.dir/WhatsApp.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsApp.cpp -o CMakeFiles/src.dir/WhatsApp.cpp.s
+CMakeFiles/src.dir/WhatsappServer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src.dir/WhatsappServer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappServer.cpp -o CMakeFiles/src.dir/WhatsappServer.cpp.s
 
-CMakeFiles/src.dir/WhatsApp.cpp.o.requires:
+CMakeFiles/src.dir/WhatsappServer.cpp.o.requires:
 
-.PHONY : CMakeFiles/src.dir/WhatsApp.cpp.o.requires
+.PHONY : CMakeFiles/src.dir/WhatsappServer.cpp.o.requires
 
-CMakeFiles/src.dir/WhatsApp.cpp.o.provides: CMakeFiles/src.dir/WhatsApp.cpp.o.requires
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsApp.cpp.o.provides.build
-.PHONY : CMakeFiles/src.dir/WhatsApp.cpp.o.provides
+CMakeFiles/src.dir/WhatsappServer.cpp.o.provides: CMakeFiles/src.dir/WhatsappServer.cpp.o.requires
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappServer.cpp.o.provides.build
+.PHONY : CMakeFiles/src.dir/WhatsappServer.cpp.o.provides
 
-CMakeFiles/src.dir/WhatsApp.cpp.o.provides.build: CMakeFiles/src.dir/WhatsApp.cpp.o
+CMakeFiles/src.dir/WhatsappServer.cpp.o.provides.build: CMakeFiles/src.dir/WhatsappServer.cpp.o
+
+
+CMakeFiles/src.dir/Group.cpp.o: CMakeFiles/src.dir/flags.make
+CMakeFiles/src.dir/Group.cpp.o: ../Group.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/src.dir/Group.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src.dir/Group.cpp.o -c /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Group.cpp
+
+CMakeFiles/src.dir/Group.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src.dir/Group.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Group.cpp > CMakeFiles/src.dir/Group.cpp.i
+
+CMakeFiles/src.dir/Group.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src.dir/Group.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Group.cpp -o CMakeFiles/src.dir/Group.cpp.s
+
+CMakeFiles/src.dir/Group.cpp.o.requires:
+
+.PHONY : CMakeFiles/src.dir/Group.cpp.o.requires
+
+CMakeFiles/src.dir/Group.cpp.o.provides: CMakeFiles/src.dir/Group.cpp.o.requires
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Group.cpp.o.provides.build
+.PHONY : CMakeFiles/src.dir/Group.cpp.o.provides
+
+CMakeFiles/src.dir/Group.cpp.o.provides.build: CMakeFiles/src.dir/Group.cpp.o
 
 
 # Object files for target src
 src_OBJECTS = \
 "CMakeFiles/src.dir/main.cpp.o" \
-"CMakeFiles/src.dir/Client.cpp.o" \
-"CMakeFiles/src.dir/Server.cpp.o" \
-"CMakeFiles/src.dir/WhatsApp.cpp.o"
+"CMakeFiles/src.dir/WhatsappClient.cpp.o" \
+"CMakeFiles/src.dir/WhatsappServer.cpp.o" \
+"CMakeFiles/src.dir/Group.cpp.o"
 
 # External object files for target src
 src_EXTERNAL_OBJECTS =
 
 src: CMakeFiles/src.dir/main.cpp.o
-src: CMakeFiles/src.dir/Client.cpp.o
-src: CMakeFiles/src.dir/Server.cpp.o
-src: CMakeFiles/src.dir/WhatsApp.cpp.o
+src: CMakeFiles/src.dir/WhatsappClient.cpp.o
+src: CMakeFiles/src.dir/WhatsappServer.cpp.o
+src: CMakeFiles/src.dir/Group.cpp.o
 src: CMakeFiles/src.dir/build.make
 src: CMakeFiles/src.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable src"
@@ -178,9 +178,9 @@ CMakeFiles/src.dir/build: src
 .PHONY : CMakeFiles/src.dir/build
 
 CMakeFiles/src.dir/requires: CMakeFiles/src.dir/main.cpp.o.requires
-CMakeFiles/src.dir/requires: CMakeFiles/src.dir/Client.cpp.o.requires
-CMakeFiles/src.dir/requires: CMakeFiles/src.dir/Server.cpp.o.requires
-CMakeFiles/src.dir/requires: CMakeFiles/src.dir/WhatsApp.cpp.o.requires
+CMakeFiles/src.dir/requires: CMakeFiles/src.dir/WhatsappClient.cpp.o.requires
+CMakeFiles/src.dir/requires: CMakeFiles/src.dir/WhatsappServer.cpp.o.requires
+CMakeFiles/src.dir/requires: CMakeFiles/src.dir/Group.cpp.o.requires
 
 .PHONY : CMakeFiles/src.dir/requires
 

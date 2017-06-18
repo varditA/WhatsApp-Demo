@@ -7,11 +7,15 @@
 
 
 #include "WhatsappClient.h"
+#include "Group.h"
 
 class WhatsappServer
 {
+public:
+    int create_group();
 private:
     vector<WhatsappClient *> clients;
+    vector<Group *> groups;
 };
 
 

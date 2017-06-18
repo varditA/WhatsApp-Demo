@@ -123,86 +123,86 @@ src/fast:
 	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/build
 .PHONY : src/fast
 
-Client.o: Client.cpp.o
+Group.o: Group.cpp.o
 
-.PHONY : Client.o
-
-# target to build an object file
-Client.cpp.o:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Client.cpp.o
-.PHONY : Client.cpp.o
-
-Client.i: Client.cpp.i
-
-.PHONY : Client.i
-
-# target to preprocess a source file
-Client.cpp.i:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Client.cpp.i
-.PHONY : Client.cpp.i
-
-Client.s: Client.cpp.s
-
-.PHONY : Client.s
-
-# target to generate assembly for a file
-Client.cpp.s:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Client.cpp.s
-.PHONY : Client.cpp.s
-
-Server.o: Server.cpp.o
-
-.PHONY : Server.o
+.PHONY : Group.o
 
 # target to build an object file
-Server.cpp.o:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Server.cpp.o
-.PHONY : Server.cpp.o
+Group.cpp.o:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Group.cpp.o
+.PHONY : Group.cpp.o
 
-Server.i: Server.cpp.i
+Group.i: Group.cpp.i
 
-.PHONY : Server.i
+.PHONY : Group.i
 
 # target to preprocess a source file
-Server.cpp.i:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Server.cpp.i
-.PHONY : Server.cpp.i
+Group.cpp.i:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Group.cpp.i
+.PHONY : Group.cpp.i
 
-Server.s: Server.cpp.s
+Group.s: Group.cpp.s
 
-.PHONY : Server.s
+.PHONY : Group.s
 
 # target to generate assembly for a file
-Server.cpp.s:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Server.cpp.s
-.PHONY : Server.cpp.s
+Group.cpp.s:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/Group.cpp.s
+.PHONY : Group.cpp.s
 
-WhatsApp.o: WhatsApp.cpp.o
+WhatsappClient.o: WhatsappClient.cpp.o
 
-.PHONY : WhatsApp.o
+.PHONY : WhatsappClient.o
 
 # target to build an object file
-WhatsApp.cpp.o:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsApp.cpp.o
-.PHONY : WhatsApp.cpp.o
+WhatsappClient.cpp.o:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappClient.cpp.o
+.PHONY : WhatsappClient.cpp.o
 
-WhatsApp.i: WhatsApp.cpp.i
+WhatsappClient.i: WhatsappClient.cpp.i
 
-.PHONY : WhatsApp.i
+.PHONY : WhatsappClient.i
 
 # target to preprocess a source file
-WhatsApp.cpp.i:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsApp.cpp.i
-.PHONY : WhatsApp.cpp.i
+WhatsappClient.cpp.i:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappClient.cpp.i
+.PHONY : WhatsappClient.cpp.i
 
-WhatsApp.s: WhatsApp.cpp.s
+WhatsappClient.s: WhatsappClient.cpp.s
 
-.PHONY : WhatsApp.s
+.PHONY : WhatsappClient.s
 
 # target to generate assembly for a file
-WhatsApp.cpp.s:
-	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsApp.cpp.s
-.PHONY : WhatsApp.cpp.s
+WhatsappClient.cpp.s:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappClient.cpp.s
+.PHONY : WhatsappClient.cpp.s
+
+WhatsappServer.o: WhatsappServer.cpp.o
+
+.PHONY : WhatsappServer.o
+
+# target to build an object file
+WhatsappServer.cpp.o:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappServer.cpp.o
+.PHONY : WhatsappServer.cpp.o
+
+WhatsappServer.i: WhatsappServer.cpp.i
+
+.PHONY : WhatsappServer.i
+
+# target to preprocess a source file
+WhatsappServer.cpp.i:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappServer.cpp.i
+.PHONY : WhatsappServer.cpp.i
+
+WhatsappServer.s: WhatsappServer.cpp.s
+
+.PHONY : WhatsappServer.s
+
+# target to generate assembly for a file
+WhatsappServer.cpp.s:
+	$(MAKE) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/WhatsappServer.cpp.s
+.PHONY : WhatsappServer.cpp.s
 
 main.o: main.cpp.o
 
@@ -240,15 +240,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... src"
-	@echo "... Client.o"
-	@echo "... Client.i"
-	@echo "... Client.s"
-	@echo "... Server.o"
-	@echo "... Server.i"
-	@echo "... Server.s"
-	@echo "... WhatsApp.o"
-	@echo "... WhatsApp.i"
-	@echo "... WhatsApp.s"
+	@echo "... Group.o"
+	@echo "... Group.i"
+	@echo "... Group.s"
+	@echo "... WhatsappClient.o"
+	@echo "... WhatsappClient.i"
+	@echo "... WhatsappClient.s"
+	@echo "... WhatsappServer.o"
+	@echo "... WhatsappServer.i"
+	@echo "... WhatsappServer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

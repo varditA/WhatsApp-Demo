@@ -4,6 +4,8 @@
 
 #include "WhatsappClient.h"
 
+string INVALIT_INPUT_MSG = "ERROR: Invalid input.\n";
+
 /**
  * The constructor of the class
  */
@@ -40,33 +42,33 @@ void WhatsappClient::listen()
     if (parameters.at(0) == "create_group") {
         if (parameters.size() != 3)
         {
-            clientPrint("ERROR: Invalid input.\n");
+            clientPrint(INVALIT_INPUT_MSG);
         } else {
             create_group(parameters.at(1), parameters.at(2));
         }
     } else if(parameters.at(0) == "send") {
         if (parameters.size() != 3)
         {
-            clientPrint("ERROR: Invalid input.\n");
+            clientPrint(INVALIT_INPUT_MSG);
         } else {
             send(parameters.at(1), parameters.at(2));
         }
     } else if(parameters.at(0) == "who") {
         if (parameters.size() != 1)
         {
-            clientPrint("ERROR: Invalid input.\n");
+            clientPrint(INVALIT_INPUT_MSG);
         } else {
             who();
         }
     } else if(parameters.at(0) == "exit") {
         if (parameters.size() != 1)
         {
-            clientPrint("ERROR: Invalid input.\n");
+            clientPrint(INVALIT_INPUT_MSG);
         } else {
             exit();
         }
     } else {
-        clientPrint("ERROR: Invalid input.\n");
+        clientPrint(INVALIT_INPUT_MSG);
     }
 }
 

@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Client.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/Client.cpp.o"
-  "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Server.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/Server.cpp.o"
-  "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsApp.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/WhatsApp.cpp.o"
+  "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/Group.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/Group.cpp.o"
+  "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappClient.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/WhatsappClient.cpp.o"
+  "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/WhatsappServer.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/WhatsappServer.cpp.o"
   "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/main.cpp" "/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
