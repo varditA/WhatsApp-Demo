@@ -5,15 +5,23 @@
 #ifndef SRC_SERVER_H
 #define SRC_SERVER_H
 
-
-#include "WhatsappClient.h"
+#include <sys/types.h>
+#include <map>
+#include <afxres.h>                                 /*todo ???  check for bug*/
 #include "Group.h"
+#include "ClientInfo.h"
 
 class WhatsappServer
 {
 public:
     WhatsappServer();
     ~WhatsappServer();
+
+    /** open the connection to the server
+ * @return -1 if the connection failed.
+ *  if it has succeed, returns 0
+ */
+    int activateServer(int PortNum);
 
     void create_group(string groupName, string callerName, vector<string> members);
     void sendMsg(string senderName, string receiverName, string msg);
@@ -27,23 +35,18 @@ public:
 
     void exit(string caller);
 private:
-    int MAX_HOSTNAME_LENGTH = 255;
+    static const int MAX_HOSTNAME_LENGTH = 255;
     char myName[MAX_HOSTNAME_LENGTH + 1];   /* the host's name */
     struct hostent *hp;                     /* the host's info */
 
     struct sockaddr_in sa;                  /* the socket's info */
     int socketId;                           /* the socket's id */
-//    int socketAdd;                          /* the socket's address */
+    int socketAdd;                          /* the socket's address */
 
-    fd_set openedSockets;                   /* vector that contains the opened vector */
-    vector<WhatsappClient *> clients;
+    fd_set openedSockets;                   /* vector that contains the opened sockets */
+    map<int, ClientInfo *> clients;
     vector<Group *> groups;
 
-    /** open the connection to the server
-     * @return -1 if the connection failed.
-     *  if it has succeed, returns 0
-     */
-    int setConnection();
 
     /**
      * setting the host name

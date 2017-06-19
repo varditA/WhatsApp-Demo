@@ -2,6 +2,7 @@
 // Created by Adi Yehezkeli on 2017/06/18.
 //
 
+#include <io.h>
 #include "WhatsappServer.h"
 
 WhatsappServer::WhatsappServer() {
@@ -9,25 +10,23 @@ WhatsappServer::WhatsappServer() {
 }
 
 WhatsappServer::~WhatsappServer() {
-    FD_ZERO(&rfds);
+    FD_ZERO(&openedSockets);
     close(socketId);
 }
-
-/* ------------------------ Private Functions ------------------------------------------ */
 
 /** open the connection to the server
  * @return 0 if the connection failed.
  *  if it has succeed, returns socket's id
  */
-int WhatsappServer::setConnection(int portNum) {
+int WhatsappServer::activateServer(int portNum) {
     if (setHostName() != 0 or setHostent() != 0) {
         return -1;
     }
 
     /* todo put in createSocket ? */
     memset(&sa, 0, sizeof(struct sockaddr_in));
-    sa.sin_family = this.hp->h_addrtype;
-    memcpy(&sa.sin_addr, this.hp->h_addr, this.hp->h_length);
+    sa.sin_family = hp->h_addrtype;
+    memcpy(&sa.sin_addr, hp->h_addr, hp->h_length);
     sa.sin_port= htons(portNum);
 
     if (createSocket() != 0)
@@ -42,17 +41,20 @@ int WhatsappServer::setConnection(int portNum) {
         return(-1);
     }
 
-    socketAdd = sizeof(is);
+    socketAdd = sizeof(sa);         /* todo:  what for? */
     listen(socketId, 10); /* max # of queued connects */
     return 0;
 }
+
+
+/* ------------------------ Private Functions ------------------------------------------ */
 
 /**
  * setting the host name
  * @return 0 if succeed and -1 if not.
  */
 int WhatsappServer::setHostName() {
-    if (gethostname(this.myName, MAX_HOSTNAME_LENGTH) != 0)
+    if (gethostname(myName, MAX_HOSTNAME_LENGTH) != 0)
     {
         /* todo error */
         return -1;
@@ -65,8 +67,8 @@ int WhatsappServer::setHostName() {
  * @return 0 if succeed and -1 if not
  */
 int WhatsappServer::setHostent() {
-    this.hp = gethostbyname(this.myName);
-    if (this.hp == NULL)
+    hp = gethostbyname(myName);
+    if (hp == NULL)
     {
         /* todo error */
         return -1;
@@ -75,9 +77,11 @@ int WhatsappServer::setHostent() {
 }
 
 int WhatsappServer::createSocket() {
-    if (socketId= socket(AF_INET, SOCK_STREAM, 0) < 0)
+    socketId= socket(AF_INET, SOCK_STREAM, 0);
+    if (socketId < 0) {
         /* todo error */
         return(-1);
+    }
     FD_SET(socketId, &openedSockets);
     return 0;
 }
@@ -107,10 +111,11 @@ int WhatsappServer::waitForClients() {
                 FD_SET(newSocketNum, &openedSockets);
                 /* todo what to do ? */
                 string name = "";   /* todo fix it */
-                string message = "client1 connected."; /* todo fix it */
-
-                WhatsappClient newClient = new WhatsappClient(name, this, newSocketNum);
-                clients.push_back(newClient);
+                char message[] = "client1 connected."; /* todo fix it */
+                /* not needed - can*/
+//                WhatsappClient newClient = new WhatsappClient(name, this, newSocketNum);
+                ClientInfo * client = new ClientInfo(newSocketNum,name);
+                clients.insert(make_pair(newSocketNum,client));
                 if (send(newSocketNum, message, strlen(message), 0) != strlen(message))
                 {
                     /* todo error */
@@ -118,9 +123,9 @@ int WhatsappServer::waitForClients() {
             }
         } else
         {
-            for (WhatsappClient client: clients)
+            for (pair<int,ClientInfo*> client: clients)
             {
-                int clientSocket = client.getSocketId();
+                int clientSocket = client.second->getSocketId();
                 if (FD_ISSET(clientSocket, &openedSockets))
                 {
                     /* read and write */
