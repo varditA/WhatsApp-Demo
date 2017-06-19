@@ -11,10 +11,11 @@ string UNREGISTER_SUCCESS = "Unregistered successfully";
 /**
  * The constructor of the class
  */
-WhatsappClient::WhatsappClient(string name, WhatsappServer *server)
+WhatsappClient::WhatsappClient(string name, WhatsappServer *server, int socketId)
 {
     this->server = server;
     this->name = name;
+    this->socketId = socketId;
 }
 
 /**
