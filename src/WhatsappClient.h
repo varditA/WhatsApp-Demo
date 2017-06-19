@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include "WhatsappServer.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ public:
     /**
      * The constructor of the class
      */
-    WhatsappClient();
+    WhatsappClient(string name, WhatsappServer *server);
 
     /**
      * The destructor of the class
@@ -29,6 +30,16 @@ public:
     void listen();
 
 private:
+
+    /**
+     * The server of this client
+     */
+    WhatsappServer *server;
+
+    /**
+     * the name of the client
+     */
+    string name;
 
     /**
      * Sends request to create a new group named “group_name” with <list_of_client_names> as group
@@ -82,6 +93,14 @@ private:
      * @param msg
      */
     void clientPrint(string msg);
+
+    /**
+     * Splits a string into a vector of strings by a character
+     * @param stringToSplit the string to split
+     * @param character the character to split by
+     * @return a vector containing the split strings
+     */
+    vector<string> splitString(vector<string> splitVector, string stringToSplit, string character);
 };
 
 #endif //SRC_CLIENT_H

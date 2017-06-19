@@ -12,7 +12,17 @@
 class WhatsappServer
 {
 public:
-    int create_group();
+    void create_group(string groupName, string callerName, vector<string> members);
+    void sendMsg(string senderName, string receiverName, string msg);
+
+    /**
+     * Sends to the caller a list (might be empty) of currently connected
+     * client names (alphabetically order), separated by comma without spaces.
+     * @param senderName
+     */
+    void who(string caller);
+
+    void exit(string caller);
 private:
     vector<WhatsappClient *> clients;
     vector<Group *> groups;

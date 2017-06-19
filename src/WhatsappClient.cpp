@@ -2,14 +2,20 @@
 // Created by Adi Yehezkeli on 2017/06/18.
 //
 
+#include <iostream>
 #include "WhatsappClient.h"
 
 string INVALIT_INPUT_MSG = "ERROR: Invalid input.\n";
+string UNREGISTER_SUCCESS = "Unregistered successfully";
 
 /**
  * The constructor of the class
  */
-WhatsappClient::WhatsappClient(){}
+WhatsappClient::WhatsappClient(string name, WhatsappServer *server)
+{
+    this->server = server;
+    this->name = name;
+}
 
 /**
  * The destructor of the class
@@ -25,19 +31,7 @@ void WhatsappClient::listen()
     string userInput = "";
     //TODO: wake up when there is a user input
     //TODO: save the user input in userInput
-    unsigned long spaceLocation = userInput.find(" ");
-
-    if (spaceLocation == string::npos)
-    {
-        parameters.push_back(userInput);
-    }
-    while (spaceLocation != string::npos)
-    {
-        string token = userInput.substr(0, spaceLocation);
-        parameters.push_back(token);
-        userInput = userInput.substr(spaceLocation);
-        spaceLocation = userInput.find(" ");
-    }
+    parameters = splitString(parameters, userInput, " ");
 
     if (parameters.at(0) == "create_group") {
         if (parameters.size() != 3)
@@ -91,7 +85,12 @@ void WhatsappClient::listen()
  * @param groupName a string of the group name
  * @param clientNames a string of of the clients names as arrived from the user
  */
-void WhatsappClient::create_group(string groupName, string clientNames){}
+void WhatsappClient::create_group(string groupName, string clientNames)
+{
+    vector<string> participants;
+    splitString(participants, clientNames, ",");
+    server->create_group(groupName, this->name, participants);
+}
 
 /**
  * If name is a client name it sends <sender_client_name>: <message> only to the specified
@@ -105,22 +104,62 @@ void WhatsappClient::create_group(string groupName, string clientNames){}
  * @param name the name of the group member to send to
  * @param msg the message to send
  */
-void WhatsappClient::send(string name, string msg){}
+void WhatsappClient::send(string name, string msg)
+{
+    server->sendMsg(this->name, name, msg);
+}
 
 /**
  * Sends a request (to the server) to receive a list (might be empty) of currently connected
  * client names (alphabetically order), separated by comma without spaces.
  */
-void WhatsappClient::who(){}
+void WhatsappClient::who()
+{
+    server->who(this->name);
+}
 
 /**
  * Unregisters the client from the server and removes it from all groups. After the server
  * unregistered the client, the client should print “Unregistered successfully” and then exit(0).
  */
-void WhatsappClient::exit(){}
+void WhatsappClient::exit()
+{
+    server->exit(this->name);
+    //todo receive a signal indicating that the exit was preformed successfully, than exit
+    clientPrint(UNREGISTER_SUCCESS);
+    exit(0);
+}
 
 /**
 * Prints a message to the client
 * @param msg
 */
-void WhatsappClient::clientPrint(string msg){}
+void WhatsappClient::clientPrint(string msg)
+{
+    cout << msg;
+}
+
+/**
+     * Splits a string into a vector of strings by a character
+     * @param stringToSplit the string to split
+     * @param character the character to split by
+     * @return a vector containing the split strings
+     */
+vector<string> WhatsappClient::splitString(vector<string> splitVector, string stringToSplit,
+                                           string character)
+{
+    unsigned long charLocation = stringToSplit.find(character);
+    if (charLocation == string::npos)
+    {
+        splitVector.push_back(stringToSplit);
+    }
+    while (charLocation != string::npos)
+    {
+        string name = stringToSplit.substr(0, charLocation);
+        splitVector.push_back(name);
+        stringToSplit = stringToSplit.substr(charLocation);
+        charLocation = stringToSplit.find(character);
+    }
+
+    return splitVector;
+}
