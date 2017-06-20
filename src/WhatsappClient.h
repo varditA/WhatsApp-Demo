@@ -17,7 +17,7 @@ public:
     /**
      * The constructor of the class
      */
-    WhatsappClient(string name, WhatsappServer *server, int socketId);
+    WhatsappClient(char *clientName, char *serverAddress, char *serverPort);
 
     /**
      * The destructor of the class
@@ -27,22 +27,21 @@ public:
     /**
      * Wait for client input
      */
-    void listen();  /* todo what should be done here */
+    void getCommand(string *buf, char *userInput);  /* todo what should be done here */
 
     inline int getSocketId(){ return socketId; }
+    void setSocketId(int socketId);
+    struct sockaddr_in getSa();
 
 private:
     int socketId;
+    struct sockaddr_in sa;
 
-    /**
-     * The server of this client
-     */
-    WhatsappServer *server;
+    char *clientName;
+    char *serverAddress;
+    char *serverPort;
 
-    /**
-     * the name of the client
-     */
-    string name;
+    void clientInit();
 
     /**
      * Sends request to create a new group named “group_name” with <list_of_client_names> as group
@@ -63,7 +62,7 @@ private:
      * @param groupName a string of the group name
      * @param clientNames a vector of strings of the clients names
      */
-    void create_group(string groupName, string clientNames);
+    void create_group(string groupName, string clientNames, string *buf);
 
     /**
      * If name is a client name it sends <sender_client_name>: <message> only to the specified
@@ -77,19 +76,19 @@ private:
      * @param name the name of the group member to send to
      * @param msg the message to send
      */
-    void send(string name, string msg);
+    void send(string name, string msg, string *buf);
 
     /**
      * Sends a request (to the server) to receive a list (might be empty) of currently connected
      * client names (alphabetically order), separated by comma without spaces.
      */
-    void who();
+    void who(string *buf);
 
     /**
      * Unregisters the client from the server and removes it from all groups. After the server
      * unregistered the client, the client should print “Unregistered successfully” and then exit(0).
      */
-    void exit();
+    void exit(string *buf);
 
     /**
      * Prints a message to the client
