@@ -16,11 +16,12 @@ int main(int argc, char * argv[]) {
     try{
         const int PORT_NUM = std::atoi(argv[1]);
         WhatsappServer * server = new WhatsappServer();
-        server->activateServer(PORT_NUM);
-        server->waitForConnection();
+        cout << server->activateServer(PORT_NUM);
+//        server->waitForConnection();
     }
     catch (exception e){
         /*todo error */
+        cerr << "error";
         return -1;
     }
 
@@ -32,10 +33,12 @@ int main(int argc, char * argv[]) {
 
 
 WhatsappServer::WhatsappServer() {
+    myName = new char(MAX_HOSTNAME_LENGTH);
     FD_ZERO(&openedSockets);
 }
 
 WhatsappServer::~WhatsappServer() {
+    delete myName;
     FD_ZERO(&openedSockets);
 //    close(socketId);
 }
@@ -49,6 +52,7 @@ int WhatsappServer::activateServer(int portNum) {
         return -1;
     }
 
+    cout << "in2";
     /* todo put in createSocket ? */
     memset(&sa, 0, sizeof(struct sockaddr_in));
     sa.sin_family = hp->h_addrtype;
@@ -59,16 +63,17 @@ int WhatsappServer::activateServer(int portNum) {
     {
         return -1;
     }
-
+    cout << "in3";
     if (bind(socketId , (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0) {
 //        close(socketId);
 
         /*todo error*/
         return(-1);
     }
-
+    cout << "in4";
     socketAdd = sizeof(sa);         /* todo:  what for? */
     listen(socketId, 10); /* max # of queued connects */
+    cout << "server is listenning";
     return 0;
 }
 
@@ -126,6 +131,7 @@ int WhatsappServer::setHostent() {
     hp = gethostbyname(myName);
     if (hp == NULL)
     {
+        cout << hstrerror(h_errno);
         /* todo error */
         return -1;
     }

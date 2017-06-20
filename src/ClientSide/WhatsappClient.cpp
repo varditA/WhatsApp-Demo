@@ -20,7 +20,7 @@ WhatsappClient::WhatsappClient(char *clientName, char *serverAddress, char *serv
     this->clientName = clientName;
     this->serverAddress = serverAddress;
     this->serverPort = serverPort;
-//    clientInit();
+    clientInit();
 }
 
 /**
@@ -30,7 +30,33 @@ WhatsappClient::~WhatsappClient(){}
 
 void WhatsappClient::clientInit()
 {
+    int portNum = atoi(serverPort);
 
+    hp = gethostbyname(clientName);
+    if (hp == NULL)
+    {
+        /* todo error */
+        return;
+    }
+    struct sockaddr_in sa = getSa();
+    memset(&sa, 0, sizeof(struct sockaddr_in));
+    sa.sin_family = hp->h_addrtype;
+    memcpy(&sa.sin_addr, hp->h_addr, hp->h_length);
+    sa.sin_port= htons(portNum);
+
+    if (connect(getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
+    {
+//        close((int) client.getSocketId());
+        /*todo error*/
+//        return(-1);
+    }
+    else { cout << CONNECTION_SUCCESS; }
+
+    setSocketId(socket(AF_INET, SOCK_STREAM, 0));
+    if (getSocketId() < 0) {
+        /* todo error */
+//        return(-1);
+    }
 }
 
 /**
@@ -54,7 +80,7 @@ void WhatsappClient::excCommand(char *userInput)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
-            send(parameters.at(1), parameters.at(2));
+            sendMsg(parameters.at(1), parameters.at(2));
         }
     } else if(parameters.at(0) == "who") {
         if (parameters.size() != 1)
@@ -101,12 +127,12 @@ void WhatsappClient::create_group(string groupName, string clientNames)
 
     string toSend = "create_group " + groupName + " " + clientNames;
     toSend = toSend.length() + " " + toSend;
-    if(send(socketId, toSend, strlen(toSend), 0) < 0)
+    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
     }
     char input[1000];
-    if (receive(socketId, input, 1000, 0) < 0)
+    if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
     } else { cout << input; }
@@ -124,17 +150,17 @@ void WhatsappClient::create_group(string groupName, string clientNames)
  * @param name the name of the group member to send to
  * @param msg the message to send
  */
-void WhatsappClient::send(string name, string msg)
+void WhatsappClient::sendMsg(string name, string msg)
 {
     string toSend = "send " + name + " " + msg;
 //    *buf = temp.length() + " " + temp;
     toSend = toSend.length() + " " + toSend;
-    if(send(socketId, toSend, strlen(toSend), 0) < 0)
+    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
     }
     char input[1000];
-    if (receive(socketId, input, 1000, 0) < 0)
+    if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
     } else { cout << input; }
@@ -150,12 +176,12 @@ void WhatsappClient::who()
     string toSend = "who";
 //    *buf = temp.length() + " " + temp;
     toSend = toSend.length() + " " + toSend;
-    if(send(socketId, toSend, strlen(toSend), 0) < 0)
+    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
     }
     char input[1000];
-    if (receive(socketId, input, 1000, 0) < 0)
+    if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
     } else { cout << input; }
@@ -170,12 +196,12 @@ void WhatsappClient::exit()
     string toSend = "exit";
 //    *buf = temp.length() + " " + temp;
     toSend = toSend.length() + " " + toSend;
-    if(send(socketId, toSend, strlen(toSend), 0) < 0)
+    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
     }
     char input[1000];
-    if (receive(socketId, input, 1000, 0) < 0)
+    if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
     } else { cout << input; }
@@ -229,28 +255,8 @@ int main(int arg, char *argv[]) {
 
     WhatsappClient client = WhatsappClient(argv[1], argv[2], argv[3]);
 
-    client.setSocketId(socket(AF_INET, SOCK_STREAM, 0));
-    if (client.getSocketId() < 0) {
-        /* todo error */
-        return(-1);
-    }
-    FD_SET(client.socketId, &openedSockets);
+//    FD_SET(client.socketId, &openedSockets);
 
-    int portNum = atoi(argv[3]);
-
-    struct sockaddr_in sa = client.getSa();
-    memset(&sa, 0, sizeof(struct sockaddr_in));
-    sa.sin_family = hp->h_addrtype;
-    memcpy(&sa.sin_addr, hp->h_addr, hp->h_length);
-    sa.sin_port= htons(portNum);
-
-    if (connect(client.getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
-    {
-        close((int) client.getSocketId);
-        /*todo error*/
-        return(-1);
-    }
-    else { cout << CONNECTION_SUCCESS; }
 
     char *userInput;
     while (true)

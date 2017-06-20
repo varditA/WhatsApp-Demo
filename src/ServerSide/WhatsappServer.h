@@ -43,7 +43,7 @@ public:
 private:
     static const int MAX_HOSTNAME_LENGTH = 255;
     static const int TOTAL_MSG_LENGTH = 1000;
-    char myName[MAX_HOSTNAME_LENGTH + 1];   /* the host's name */
+    char * myName;   /* the host's name */
     struct hostent *hp;                     /* the host's info */
 
     struct sockaddr_in sa;                  /* the socket's info */

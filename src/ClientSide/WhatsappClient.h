@@ -5,9 +5,12 @@
 #ifndef SRC_CLIENT_H
 #define SRC_CLIENT_H
 
+#include <iostream>
+#include <arpa/inet.h>
 #include <vector>
-#include <string>
-#include "src/WhatsappServer.h"
+#include <stdio.h>
+#include <string.h>
+#include <netdb.h>
 
 using namespace std;
 
@@ -34,6 +37,8 @@ public:
     struct sockaddr_in getSa();
 
 private:
+    struct hostent *hp;                     /* the host's info */
+
     int socketId;
     struct sockaddr_in sa;
 
@@ -76,7 +81,7 @@ private:
      * @param name the name of the group member to send to
      * @param msg the message to send
      */
-    void send(string name, string msg);
+    void sendMsg(string name, string msg);
 
     /**
      * Sends a request (to the server) to receive a list (might be empty) of currently connected
