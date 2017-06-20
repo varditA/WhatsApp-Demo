@@ -79,6 +79,10 @@ private:
      */
     int getConnection();
 
+    void addNewClient();
+
+    void getMsgFromClient();
+
 };
 
 
