@@ -17,7 +17,7 @@ public:
     /**
      * The constructor of the class
      */
-    WhatsappClient(string name, WhatsappServer *server);
+    WhatsappClient(string name, WhatsappServer *server, int socketId);
 
     /**
      * The destructor of the class
@@ -27,9 +27,12 @@ public:
     /**
      * Wait for client input
      */
-    void listen();
+    void listen();  /* todo what should be done here */
+
+    inline int getSocketId(){ return socketId; }
 
 private:
+    int socketId;
 
     /**
      * The server of this client
