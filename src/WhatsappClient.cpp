@@ -141,11 +141,11 @@ void WhatsappClient::clientPrint(string msg)
 }
 
 /**
-     * Splits a string into a vector of strings by a character
-     * @param stringToSplit the string to split
-     * @param character the character to split by
-     * @return a vector containing the split strings
-     */
+* Splits a string into a vector of strings by a character
+* @param stringToSplit the string to split
+* @param character the character to split by
+* @return a vector containing the split strings
+*/
 vector<string> WhatsappClient::splitString(vector<string> splitVector, string stringToSplit,
                                            string character)
 {
