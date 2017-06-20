@@ -11,6 +11,7 @@
 #include <vector>
 #include "Group.h"
 
+class Group;
 using namespace std;
 
 class ClientInfo{
