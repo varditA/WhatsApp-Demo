@@ -5,11 +5,21 @@
 #ifndef SRC_SERVER_H
 #define SRC_SERVER_H
 
-#include <sys/types.h>
+#include <iostream>
 #include <map>
-#include <afxres.h>                                 /*todo ???  check for bug*/
 #include "Group.h"
 #include "ClientInfo.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <string.h>
+#include <netdb.h>
+#include <errno.h>
+
+const char CONNECT_SUCCESS_MSG []= "Connected successfully.";
+const char CONNECT_FAILURE_MSG []= "Failure in connection.";
+
 
 class WhatsappServer
 {
@@ -23,19 +33,16 @@ public:
  */
     int activateServer(int PortNum);
 
-    void create_group(string groupName, string callerName, vector<string> members);
-    void sendMsg(string senderName, string receiverName, string msg);
-
     /**
-     * Sends to the caller a list (might be empty) of currently connected
-     * client names (alphabetically order), separated by comma without spaces.
-     * @param senderName
+     * The function waits for new client. For every new client, it creats
+     * new socket and add it to the server's clients.
      */
-    void who(string caller);
+    int waitForConnection();
 
-    void exit(string caller);
+
 private:
     static const int MAX_HOSTNAME_LENGTH = 255;
+    static const int TOTAL_MSG_LENGTH = 1000;
     char myName[MAX_HOSTNAME_LENGTH + 1];   /* the host's name */
     struct hostent *hp;                     /* the host's info */
 
@@ -44,8 +51,8 @@ private:
     int socketAdd;                          /* the socket's address */
 
     fd_set openedSockets;                   /* vector that contains the opened sockets */
-    map<int, ClientInfo *> clients;
-    vector<Group *> groups;
+    map<string, ClientInfo *> clients;
+    map<string, Group *> groups;
 
 
     /**
@@ -61,17 +68,10 @@ private:
     int setHostent();
 
     /**
-     * creating a socket.
+     * creating a socket for the server's socket.
      * @return 0 if succeed and -1 if not
      */
     int createSocket();
-
-    /**
-     * The function waits for new client. For every new client, it creats
-     * new socket and add it to the server's clients.
-     * @return
-     */
-    int waitForClients();
 
     /**
      * open a new socket for a new client
@@ -79,9 +79,48 @@ private:
      */
     int getConnection();
 
+    /**
+     * check if the name is available. Sending a message to the client accordingly and update the details.
+     */
     void addNewClient();
 
+    /**
+     * find whom client has sent the message and handle it
+     */
     void getMsgFromClient();
+
+    /**
+    * @return 0 if client is existed and -1 if not
+    */
+    int isClientExist(string);
+
+    /**
+    * @return 0 if group is existed and -1 if not
+    */
+    int isGroupExist(string);
+
+    /**
+     * reading a msg from a socket
+     * @param socketNum - the socket that contains the msg
+     * @param buffer - the buffer that we want to write to.
+     * @return
+     */
+    int readMsg(int socketNum, char * buffer);
+
+    void sendMsg(string senderName, string receiverName, string msg);
+
+
+    void create_group(string groupName, string callerName, vector<string> members);
+
+    /**
+     * Sends to the caller a list (might be empty) of currently connected
+     * client names (alphabetically order), separated by comma without spaces.
+     * @param senderName
+     */
+    void who(string caller);
+
+    void exit(string caller);
+
 
 };
 

@@ -13,18 +13,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="886367f7-5908-4a36-8acb-a83ddb664947" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ex5.iml" afterPath="$PROJECT_DIR$/.idea/ex5.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/src/CMakeLists.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ClientInfo.cpp" afterPath="$PROJECT_DIR$/src/ClientInfo.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ClientInfo.h" afterPath="$PROJECT_DIR$/src/ClientInfo.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Group.cpp" afterPath="$PROJECT_DIR$/src/Group.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Group.h" afterPath="$PROJECT_DIR$/src/Group.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/WhatsappClient.cpp" afterPath="$PROJECT_DIR$/src/WhatsappClient.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/WhatsappClient.h" afterPath="$PROJECT_DIR$/src/WhatsappClient.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/WhatsappServer.cpp" afterPath="$PROJECT_DIR$/src/WhatsappServer.cpp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/WhatsappServer.h" afterPath="$PROJECT_DIR$/src/WhatsappServer.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CMakeLists.txt" afterPath="$PROJECT_DIR$/src/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ClientInfo.h" afterPath="$PROJECT_DIR$/src/ClientInfo.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Group.h" afterPath="$PROJECT_DIR$/src/Group.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/WhatsappServer.cpp" afterPath="$PROJECT_DIR$/src/WhatsappServer.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/WhatsappServer.h" afterPath="$PROJECT_DIR$/src/WhatsappServer.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/WhatsappClient.cpp" afterPath="$PROJECT_DIR$/WhatsappClient.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/WhatsappClient.h" afterPath="$PROJECT_DIR$/WhatsappClient.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
     </list>
     <ignored path="ex5.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,117 +42,123 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CMakeLists.txt">
+      <file leaf-file-name="WhatsappServer.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/WhatsappServer.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="3" column="54" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
-              <folding />
+            <state relative-caret-position="650">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#2#0" expanded="false" />
+                <element signature="e#527#641#0" expanded="false" />
+                <element signature="e#684#823#0" expanded="false" />
+                <element signature="e#1465#1548#0" expanded="false" />
+                <element signature="e#1577#1697#0" expanded="false" />
+                <element signature="e#1725#1828#0" expanded="false" />
+                <element signature="e#1858#1970#0" expanded="false" />
+                <element signature="e#2001#2119#0" expanded="false" />
+                <element signature="e#2150#2220#0" expanded="false" />
+                <element signature="e#2255#2316#0" expanded="false" />
+                <element signature="e#2353#2413#0" expanded="false" />
+                <element signature="e#2449#2629#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.cpp">
+        <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="175">
+              <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WhatsappServer.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/WhatsappServer.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1500">
-              <caret line="81" column="24" selection-start-line="81" selection-start-column="24" selection-end-line="81" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#2#0" expanded="false" />
-                <element signature="e#93#115#0" expanded="true" />
-                <element signature="e#336#450#0" expanded="false" />
-                <element signature="e#1454#1537#0" expanded="false" />
-                <element signature="e#1566#1686#0" expanded="false" />
-                <element signature="e#1714#1793#0" expanded="false" />
-                <element signature="e#1823#1977#0" expanded="false" />
-                <element signature="e#2009#2121#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WhatsappServer.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WhatsappServer.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/WhatsappServer.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="150">
+              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
-                <element signature="e#95#160#0" expanded="false" />
-                <element signature="e#162#249#0" expanded="false" />
-                <element signature="e#251#374#0" expanded="false" />
-                <element signature="e#251#1061#0" expanded="false" />
-                <element signature="e#1157#1228#0" expanded="false" />
-                <element signature="e#1157#1391#0" expanded="false" />
-                <element signature="e#1393#1501#0" expanded="false" />
-                <element signature="e#1393#1660#0" expanded="false" />
-                <element signature="e#1662#1874#0" expanded="false" />
-                <element signature="e#1876#2014#0" expanded="false" />
-                <element signature="e#3676#3776#0" expanded="false" />
-                <element signature="e#3676#4078#0" expanded="false" />
-                <element signature="e#4355#4528#0" expanded="false" />
+                <element signature="e#79#573#0" expanded="false" />
+                <element signature="e#575#734#0" expanded="false" />
+                <element signature="e#736#825#0" expanded="false" />
+                <element signature="e#827#950#0" expanded="false" />
+                <element signature="e#827#1639#0" expanded="false" />
+                <element signature="e#1642#1780#0" expanded="false" />
+                <element signature="e#1642#2458#0" expanded="false" />
+                <element signature="e#2554#2625#0" expanded="false" />
+                <element signature="e#2554#2788#0" expanded="false" />
+                <element signature="e#2790#2898#0" expanded="false" />
+                <element signature="e#2790#3057#0" expanded="false" />
+                <element signature="e#3059#3271#0" expanded="false" />
+                <element signature="e#3273#3373#0" expanded="false" />
+                <element signature="e#3273#3675#0" expanded="false" />
+                <element signature="e#3678#4874#0" expanded="false" />
+                <element signature="e#4876#5428#0" expanded="false" />
+                <element signature="e#5430#6597#0" expanded="false" />
+                <element signature="e#6599#6739#0" expanded="false" />
+                <element signature="e#6741#6878#0" expanded="false" />
+                <element signature="e#7153#7326#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WhatsappClient.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/WhatsappClient.cpp">
+      <file leaf-file-name="Group.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Group.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1629">
-              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-              <folding>
-                <element signature="e#211#250#0" expanded="false" />
-                <element signature="e#211#417#0" expanded="false" />
-                <element signature="e#419#457#0" expanded="false" />
-                <element signature="e#495#527#0" expanded="false" />
-                <element signature="e#1631#2647#0" expanded="false" />
-                <element signature="e#1631#2868#0" expanded="false" />
-                <element signature="e#2870#3390#0" expanded="false" />
-                <element signature="e#2870#3489#0" expanded="false" />
-                <element signature="e#3491#3666#0" expanded="false" />
-                <element signature="e#3491#3726#0" expanded="false" />
-                <element signature="e#3728#3924#0" expanded="false" />
-                <element signature="e#3728#4127#0" expanded="false" />
-                <element signature="e#4129#4181#0" expanded="false" />
-                <element signature="e#4129#4247#0" expanded="false" />
-                <element signature="e#4249#4474#0" expanded="false" />
-                <element signature="e#4249#5082#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="375">
+              <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WhatsappClient.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/WhatsappClient.h">
+      <file leaf-file-name="ClientInfo.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ClientInfo.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Group.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Group.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientInfo.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ClientInfo.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
-                <element signature="e#215#262#0" expanded="false" />
-                <element signature="e#339#385#0" expanded="false" />
-                <element signature="e#414#454#0" expanded="false" />
-                <element signature="e#594#638#0" expanded="false" />
-                <element signature="e#672#713#0" expanded="false" />
-                <element signature="e#736#1807#0" expanded="false" />
-                <element signature="e#1874#2438#0" expanded="false" />
-                <element signature="e#2484#2671#0" expanded="false" />
-                <element signature="e#2693#2901#0" expanded="false" />
-                <element signature="e#2924#2991#0" expanded="false" />
-                <element signature="e#3031#3256#0" expanded="false" />
+                <element signature="e#227#707#1" expanded="false" />
+                <element signature="e#405#468#0" expanded="false" />
+                <element signature="e#474#539#0" expanded="false" />
+                <element signature="e#545#615#0" expanded="false" />
+                <element signature="e#621#703#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -172,15 +176,18 @@
         <option value="$PROJECT_DIR$/../ex4/CacheFS.cpp" />
         <option value="$PROJECT_DIR$/src/WhatsappClient.cpp" />
         <option value="$PROJECT_DIR$/src/WhatsappClient.h" />
-        <option value="$PROJECT_DIR$/src/WhatsappServer.cpp" />
-        <option value="$PROJECT_DIR$/src/ClientInfo.h" />
         <option value="$PROJECT_DIR$/ClientInfo.cpp" />
         <option value="$PROJECT_DIR$/ClientInfo.h" />
-        <option value="$PROJECT_DIR$/src/WhatsappServer.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/WhatsappServer.cpp" />
         <option value="$PROJECT_DIR$/WhatsappServer.h" />
+        <option value="$PROJECT_DIR$/README" />
+        <option value="$PROJECT_DIR$/WhatsappClient.cpp" />
+        <option value="$PROJECT_DIR$/src/ClientInfo.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/src/Group.h" />
+        <option value="$PROJECT_DIR$/src/WhatsappServer.h" />
+        <option value="$PROJECT_DIR$/src/WhatsappServer.cpp" />
       </list>
     </option>
   </component>
@@ -238,10 +245,6 @@
               <option name="myItemId" value="ex5" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -250,6 +253,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ex5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -261,14 +268,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/main.cpp" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Files\secondYear\OS\ex5" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Files\secondYear\OS\ex5\src" />
       <recent name="D:\Files\secondYear\OS\ex5" />
+      <recent name="D:\Files\secondYear\OS\ex5\src" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Build All">
@@ -458,18 +467,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1497854215967</updated>
-      <workItem from="1497854217271" duration="19322000" />
+      <workItem from="1497854217271" duration="33435000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19322000" />
+    <option name="totallyTimeSpent" value="33435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32990867" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32990867" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -502,19 +511,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/WhatsappClient.cpp</url>
+          <line>41</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Group.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -531,7 +539,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+    <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
@@ -563,12 +571,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientInfo.h">
+    <entry file="file://$PROJECT_DIR$/WhatsappClient.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="28" column="5" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
+        <state relative-caret-position="325">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
-            <element signature="e#94#113#0" expanded="false" />
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#219#266#0" expanded="false" />
+            <element signature="e#343#389#0" expanded="false" />
+            <element signature="e#418#458#0" expanded="false" />
+            <element signature="e#598#642#0" expanded="false" />
+            <element signature="e#676#717#0" expanded="false" />
+            <element signature="e#740#1811#0" expanded="false" />
+            <element signature="e#1878#2442#0" expanded="false" />
+            <element signature="e#2488#2675#0" expanded="false" />
+            <element signature="e#2697#2905#0" expanded="false" />
+            <element signature="e#2928#2995#0" expanded="false" />
+            <element signature="e#3035#3260#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -581,24 +600,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/WhatsappClient.h">
+    <entry file="file://$PROJECT_DIR$/src/ClientInfo.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state relative-caret-position="275">
+          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
           <folding>
             <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#215#262#0" expanded="false" />
-            <element signature="e#339#385#0" expanded="false" />
-            <element signature="e#414#454#0" expanded="false" />
-            <element signature="e#594#638#0" expanded="false" />
-            <element signature="e#672#713#0" expanded="false" />
-            <element signature="e#736#1807#0" expanded="false" />
-            <element signature="e#1874#2438#0" expanded="false" />
-            <element signature="e#2484#2671#0" expanded="false" />
-            <element signature="e#2693#2901#0" expanded="false" />
-            <element signature="e#2924#2991#0" expanded="false" />
-            <element signature="e#3031#3256#0" expanded="false" />
+            <element signature="e#227#707#1" expanded="false" />
+            <element signature="e#405#468#0" expanded="false" />
+            <element signature="e#474#539#0" expanded="false" />
+            <element signature="e#545#615#0" expanded="false" />
+            <element signature="e#621#703#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Group.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -610,77 +631,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+    <entry file="file://$PROJECT_DIR$/WhatsappClient.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="350">
+          <caret line="158" column="42" selection-start-line="158" selection-start-column="36" selection-end-line="158" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/WhatsappClient.cpp">
+    <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1629">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+        <state relative-caret-position="175">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Group.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/WhatsappServer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding>
-            <element signature="e#211#250#0" expanded="false" />
-            <element signature="e#211#417#0" expanded="false" />
-            <element signature="e#419#457#0" expanded="false" />
-            <element signature="e#495#527#0" expanded="false" />
-            <element signature="e#1631#2647#0" expanded="false" />
-            <element signature="e#1631#2868#0" expanded="false" />
-            <element signature="e#2870#3390#0" expanded="false" />
-            <element signature="e#2870#3489#0" expanded="false" />
-            <element signature="e#3491#3666#0" expanded="false" />
-            <element signature="e#3491#3726#0" expanded="false" />
-            <element signature="e#3728#3924#0" expanded="false" />
-            <element signature="e#3728#4127#0" expanded="false" />
-            <element signature="e#4129#4181#0" expanded="false" />
-            <element signature="e#4129#4247#0" expanded="false" />
-            <element signature="e#4249#4474#0" expanded="false" />
-            <element signature="e#4249#5082#0" expanded="false" />
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#527#641#0" expanded="false" />
+            <element signature="e#684#823#0" expanded="false" />
+            <element signature="e#1465#1548#0" expanded="false" />
+            <element signature="e#1577#1697#0" expanded="false" />
+            <element signature="e#1725#1828#0" expanded="false" />
+            <element signature="e#1858#1970#0" expanded="false" />
+            <element signature="e#2001#2119#0" expanded="false" />
+            <element signature="e#2150#2220#0" expanded="false" />
+            <element signature="e#2255#2316#0" expanded="false" />
+            <element signature="e#2353#2413#0" expanded="false" />
+            <element signature="e#2449#2629#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/WhatsappServer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="150">
+          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
           <folding>
             <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#95#160#0" expanded="false" />
-            <element signature="e#162#249#0" expanded="false" />
-            <element signature="e#251#374#0" expanded="false" />
-            <element signature="e#251#1061#0" expanded="false" />
-            <element signature="e#1157#1228#0" expanded="false" />
-            <element signature="e#1157#1391#0" expanded="false" />
-            <element signature="e#1393#1501#0" expanded="false" />
-            <element signature="e#1393#1660#0" expanded="false" />
-            <element signature="e#1662#1874#0" expanded="false" />
-            <element signature="e#1876#2014#0" expanded="false" />
-            <element signature="e#3676#3776#0" expanded="false" />
-            <element signature="e#3676#4078#0" expanded="false" />
-            <element signature="e#4355#4528#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WhatsappServer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1500">
-          <caret line="81" column="24" selection-start-line="81" selection-start-column="24" selection-end-line="81" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#93#115#0" expanded="true" />
-            <element signature="e#336#450#0" expanded="false" />
-            <element signature="e#1454#1537#0" expanded="false" />
-            <element signature="e#1566#1686#0" expanded="false" />
-            <element signature="e#1714#1793#0" expanded="false" />
-            <element signature="e#1823#1977#0" expanded="false" />
-            <element signature="e#2009#2121#0" expanded="false" />
+            <element signature="e#79#573#0" expanded="false" />
+            <element signature="e#575#734#0" expanded="false" />
+            <element signature="e#736#825#0" expanded="false" />
+            <element signature="e#827#950#0" expanded="false" />
+            <element signature="e#827#1639#0" expanded="false" />
+            <element signature="e#1642#1780#0" expanded="false" />
+            <element signature="e#1642#2458#0" expanded="false" />
+            <element signature="e#2554#2625#0" expanded="false" />
+            <element signature="e#2554#2788#0" expanded="false" />
+            <element signature="e#2790#2898#0" expanded="false" />
+            <element signature="e#2790#3057#0" expanded="false" />
+            <element signature="e#3059#3271#0" expanded="false" />
+            <element signature="e#3273#3373#0" expanded="false" />
+            <element signature="e#3273#3675#0" expanded="false" />
+            <element signature="e#3678#4874#0" expanded="false" />
+            <element signature="e#4876#5428#0" expanded="false" />
+            <element signature="e#5430#6597#0" expanded="false" />
+            <element signature="e#6599#6739#0" expanded="false" />
+            <element signature="e#6741#6878#0" expanded="false" />
+            <element signature="e#7153#7326#0" expanded="false" />
           </folding>
         </state>
       </provider>
