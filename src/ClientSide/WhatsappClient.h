@@ -27,7 +27,7 @@ public:
     /**
      * Wait for client input
      */
-    void getCommand(string *buf, char *userInput);  /* todo what should be done here */
+    void excCommand(char *userInput);  /* todo what should be done here */
 
     inline int getSocketId(){ return socketId; }
     void setSocketId(int socketId);
@@ -62,7 +62,7 @@ private:
      * @param groupName a string of the group name
      * @param clientNames a vector of strings of the clients names
      */
-    void create_group(string groupName, string clientNames, string *buf);
+    void create_group(string groupName, string clientNames);
 
     /**
      * If name is a client name it sends <sender_client_name>: <message> only to the specified
@@ -76,19 +76,19 @@ private:
      * @param name the name of the group member to send to
      * @param msg the message to send
      */
-    void send(string name, string msg, string *buf);
+    void send(string name, string msg);
 
     /**
      * Sends a request (to the server) to receive a list (might be empty) of currently connected
      * client names (alphabetically order), separated by comma without spaces.
      */
-    void who(string *buf);
+    void who();
 
     /**
      * Unregisters the client from the server and removes it from all groups. After the server
      * unregistered the client, the client should print “Unregistered successfully” and then exit(0).
      */
-    void exit(string *buf);
+    void exit();
 
     /**
      * Prints a message to the client

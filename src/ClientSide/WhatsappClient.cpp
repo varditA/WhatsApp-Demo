@@ -36,7 +36,7 @@ void WhatsappClient::clientInit()
 /**
  * Wait for client input
  */
-void WhatsappClient::getCommand(string *buf, char *userInput)
+void WhatsappClient::excCommand(char *userInput)
 {
     vector<string> parameters;
     parameters = splitString(parameters, userInput, " ");
@@ -47,28 +47,28 @@ void WhatsappClient::getCommand(string *buf, char *userInput)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
-            create_group(parameters.at(1), parameters.at(2), buf);
+            create_group(parameters.at(1), parameters.at(2));
         }
     } else if(parameters.at(0) == "send") {
         if (parameters.size() != 3)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
-            send(parameters.at(1), parameters.at(2), buf);
+            send(parameters.at(1), parameters.at(2));
         }
     } else if(parameters.at(0) == "who") {
         if (parameters.size() != 1)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
-            who(buf);
+            who();
         }
     } else if(parameters.at(0) == "exit") {
         if (parameters.size() != 1)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
-            exit(buf);
+            exit();
         }
     } else {
         clientPrint(INVALIT_INPUT_MSG);
@@ -94,7 +94,7 @@ void WhatsappClient::getCommand(string *buf, char *userInput)
  * @param groupName a string of the group name
  * @param clientNames a string of of the clients names as arrived from the user
  */
-void WhatsappClient::create_group(string groupName, string clientNames, string *buf)
+void WhatsappClient::create_group(string groupName, string clientNames)
 {
     vector<string> participants;
     splitString(participants, clientNames, ",");
@@ -105,6 +105,11 @@ void WhatsappClient::create_group(string groupName, string clientNames, string *
     {
         //todo err
     }
+    char input[1000];
+    if (receive(socketId, input, 1000, 0) < 0)
+    {
+        //todo err
+    } else { cout << input; }
 }
 
 /**
@@ -119,7 +124,7 @@ void WhatsappClient::create_group(string groupName, string clientNames, string *
  * @param name the name of the group member to send to
  * @param msg the message to send
  */
-void WhatsappClient::send(string name, string msg, string *buf)
+void WhatsappClient::send(string name, string msg)
 {
     string toSend = "send " + name + " " + msg;
 //    *buf = temp.length() + " " + temp;
@@ -128,13 +133,19 @@ void WhatsappClient::send(string name, string msg, string *buf)
     {
         //todo err
     }
+    char input[1000];
+    if (receive(socketId, input, 1000, 0) < 0)
+    {
+        //todo err
+    } else { cout << input; }
+
 }
 
 /**
  * Sends a request (to the server) to receive a list (might be empty) of currently connected
  * client names (alphabetically order), separated by comma without spaces.
  */
-void WhatsappClient::who(string *buf)
+void WhatsappClient::who()
 {
     string toSend = "who";
 //    *buf = temp.length() + " " + temp;
@@ -143,13 +154,18 @@ void WhatsappClient::who(string *buf)
     {
         //todo err
     }
+    char input[1000];
+    if (receive(socketId, input, 1000, 0) < 0)
+    {
+        //todo err
+    } else { cout << input; }
 }
 
 /**
  * Unregisters the client from the server and removes it from all groups. After the server
  * unregistered the client, the client should print “Unregistered successfully” and then exit(0).
  */
-void WhatsappClient::exit(string *buf)
+void WhatsappClient::exit()
 {
     string toSend = "exit";
 //    *buf = temp.length() + " " + temp;
@@ -158,6 +174,11 @@ void WhatsappClient::exit(string *buf)
     {
         //todo err
     }
+    char input[1000];
+    if (receive(socketId, input, 1000, 0) < 0)
+    {
+        //todo err
+    } else { cout << input; }
 }
 
 /**
@@ -215,6 +236,8 @@ int main(int arg, char *argv[]) {
     }
     FD_SET(client.socketId, &openedSockets);
 
+    int portNum = atoi(argv[3]);
+
     struct sockaddr_in sa = client.getSa();
     memset(&sa, 0, sizeof(struct sockaddr_in));
     sa.sin_family = hp->h_addrtype;
@@ -232,13 +255,8 @@ int main(int arg, char *argv[]) {
     char *userInput;
     while (true)
     {
-        char buf[1000]; //todo: is 1000 enough?
         cin >> userInput;
-        string command = client.getCommand(buf, userInput);
-
-        //todo wait for response from the server
-
-        //todo print the server's response
+        client.excCommand(userInput);
     }
     return 0;
 }
