@@ -27,26 +27,31 @@ public:
      */
     ~WhatsappClient();
 
+    int clientInit();
+
+
     /**
      * Wait for client input
      */
-    void excCommand(char *userInput);  /* todo what should be done here */
+    void excCommand(string userInput);  /* todo what should be done here */
 
     inline int getSocketId(){ return socketId; }
     void setSocketId(int socketId);
     struct sockaddr_in getSa();
 
 private:
+    static const int MAX_HOSTNAME_LENGTH = 255;
+
     struct hostent *hp;                     /* the host's info */
+    char * myName;   /* the host's name */
 
     int socketId;
     struct sockaddr_in sa;
 
-    char *clientName;
+    string clientName;
     char *serverAddress;
     char *serverPort;
 
-    void clientInit();
 
     /**
      * Sends request to create a new group named “group_name” with <list_of_client_names> as group
@@ -108,6 +113,20 @@ private:
      * @return a vector containing the split strings
      */
     vector<string> splitString(vector<string> splitVector, string stringToSplit, string character);
+
+    /**
+    * setting the host name
+    * @return 0 if succeed and -1 if not.
+    */
+    int setHostName();
+
+    /**
+     * adding the length of the message in the message's begining.
+     * @param msg - the user's message
+     * @return - the length's message in format XXX (3 digits)
+     */
+    string setMsgLength(string msg);
+
 };
 
 #endif //SRC_CLIENT_H
