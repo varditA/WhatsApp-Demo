@@ -2,6 +2,16 @@
 // Created by Adi Yehezkeli on 2017/06/18.
 //
 
+#include <stdio.h>
+#include <errno.h>
+#include <strings.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <sys/timeb.h>
 #include "WhatsappServer.h"
 
 /* ---------------------------- Main -------------------------------------------------- */
@@ -85,11 +95,12 @@ int WhatsappServer::activateServer(int portNum) {
  * @return
  */
 int WhatsappServer::waitForConnection() {
-    int maxId = socketId;  /* the max id of socket in the openedSockets' set */
+    maxId = socketId;  /* the max id of socket in the openedSockets' set */
     while (true)
     {
         /* check which socket has been activated */
         int usingSelect = select(maxId + 1, &openedSockets, NULL, NULL, NULL);
+
         if (usingSelect < 0 && errno != EINTR)
         {
             /* todo error */
@@ -146,7 +157,6 @@ int WhatsappServer::createSocket() {
         /* todo error */
         return(-1);
     }
-//
     if (setsockopt(socketId, SOL_SOCKET, SO_REUSEADDR, &on, sizeof on) < 0)
     {
         /* todo error */
@@ -172,149 +182,6 @@ int WhatsappServer::getConnection() {
     return clientSocket;
 }
 
-
-void WhatsappServer::addNewClient()  {
-    int newSocketNum = getConnection();
-    if (newSocketNum == 0) {
-        return;
-    }
-
-    FD_SET(newSocketNum, &openedSockets);
-    char buffer[TOTAL_MSG_LENGTH];
-
-//    int bcount;
-//    /* counts bytes read */
-//    int br;
-//    /* bytes read this pass */
-//    bcount= 0; br= 0;
-//
-////    br = read(newSocketNum, buffer, 30);
-//    bzero(buffer,TOTAL_MSG_LENGTH);
-//    br = read(newSocketNum, buffer, TOTAL_MSG_LENGTH);
-//    if (br > 0 )
-//    {
-//        cout << buffer << flush;
-//    }
-
-//    while (bcount < 5) { /* loop until full buffer */
-//        br = read(newSocketNum, buffer, 5-bcount);
-//        if (br > 0) {
-//            cout << buffer << flush;
-//            bcount += br;
-//            buffer += br;
-//        }
-//        if (br < 1) {
-//            cerr << "error reading";
-//            cerr << errno;
-//            return;
-//        }
-//    }
-
-    if (readMsg(newSocketNum,buffer) < 0)
-    {
-        /* can't get the name*/
-        return;
-    }
-
-//        string name(buffer);
-//        name = name.substr(0, name.find(" "));
-//
-////        if(recv(newSocketNum, name , 30 , 0) < 0)
-////        {
-////            /* todo error */
-////        }
-//
-//        if (isClientExist(name)== 0 || isGroupExist(name) == 0)
-//        {
-//            if (send(newSocketNum, CONNECT_FAILURE_MSG, strlen(CONNECT_FAILURE_MSG), 0) != strlen(CONNECT_FAILURE_MSG))
-//            {
-//                /* todo error */
-//                return;
-//            }
-//        }
-//
-//        ClientInfo * client = new ClientInfo(newSocketNum,name);
-//        clients.insert(make_pair(name,client));
-//
-//        if (send(newSocketNum, CONNECT_SUCCESS_MSG, strlen(CONNECT_SUCCESS_MSG), 0) != strlen(CONNECT_SUCCESS_MSG))
-//        {
-//            /* todo error */
-//            return;
-//        } else
-//        {
-//            string message = string(name) + string(" connected."); /* todo fix it */
-//            cout << message;
-//        }
-
-}
-
-void WhatsappServer::getMsgFromClient() {
-//            for (pair<int,ClientInfo*> client: clients)
-//            {
-//                int clientSocket = client.second->getSocketId();
-//                if (FD_ISSET(clientSocket, &openedSockets))
-//                {
-//                    char message[1000];
-//                    if(recv(newSocketNum, message , 30 , 0) < 0)
-//                    {
-//                        /* todo error */
-//                    }
-//                    handleMsg(client, message);
-//                }
-//            }
-}
-
-int WhatsappServer::readMsg(int socketNum, char *buffer) {
-    char * temp = new char[TOTAL_MSG_LENGTH];
-    char ** pointerBuffer = &temp;
-    int bcount;       /* counts bytes read */
-    int br;               /* bytes read this pass */
-    bcount= 0; br= 0;
-    int found = 1;
-
-    while (found !=  string::npos && bcount < TOTAL_MSG_LENGTH)
-    {
-        br = read(socketNum, temp, 1000);
-        if (br >= 0)
-        {
-            bcount += br;
-            temp += br;
-
-        }
-        else
-        {
-            return -1;
-        }
-        string str(temp);
-        found = str.find(" ");
-    }
-
-    cerr << "finished reading" << flush;
-
-    string str(*pointerBuffer);
-    string size(str.substr(0,found));
-    int msg_length = atoi(str.c_str());
-    bcount -= size.length() + 1;
-
-    cout << str << flush;
-//    while (bcount < msg_length) { /* loop until full buffer */
-//        br = read(socketNum, temp, msg_length-bcount);
-//        if (br >= 0){
-//            bcount += br;
-//            temp += br;
-//        } else {
-//            return -1;
-//        }
-//    }
-//
-//    if (memcpy(buffer + size.length(), temp, msg_length) < 0)
-//    {
-//        /* todo error */
-//    }
-//    delete temp;
-    return(bcount);
-}
-
 int WhatsappServer::isClientExist(string name) {
     if (clients.find(name) != clients.end())
     {
@@ -331,8 +198,158 @@ int WhatsappServer::isGroupExist(string name) {
     return -1;
 }
 
-/* ------------------------ Public Functions ------------------------------------------ */
-void WhatsappServer::create_group(string groupName, string callerName, vector<string> members){}
+
+/* ------------------------ Currently Working On ------------------------------------------ */
+
+
+void WhatsappServer::addNewClient()  {
+    int newSocketNum = getConnection();
+    if (newSocketNum == 0) {
+        return;
+    }
+
+    FD_SET(newSocketNum, &openedSockets);
+    maxId = newSocketNum;
+
+    char buffer[TOTAL_MSG_LENGTH] = ""; /*TODO like that everywhere */
+
+
+    if (readMsg(newSocketNum,buffer) < 0)
+    {
+        /* can't get the name*/
+        return;
+    }
+
+    string name(buffer);
+
+    if (isClientExist(name)== 0 || isGroupExist(name) == 0)
+    {
+        if (send(newSocketNum, CONNECT_FAILURE_MSG, strlen(CONNECT_FAILURE_MSG), 0) != strlen(CONNECT_FAILURE_MSG))
+        {
+            /* todo error */
+            return;
+        }
+    }
+
+    ClientInfo * client = new ClientInfo(newSocketNum,name);
+    clients.insert(make_pair(name,client));
+
+    if (send(newSocketNum, CONNECT_SUCCESS_MSG, strlen(CONNECT_SUCCESS_MSG), 0) != strlen(CONNECT_SUCCESS_MSG))
+    {
+        /* todo error */
+        return;
+    } else
+    {
+        string message = string(name) + string(" connected."); /* todo fix it */
+        cout << message << endl << flush;
+    }
+
+}
+
+void WhatsappServer::getMsgFromClient() {
+            for (auto& client: clients)
+            {
+                int clientSocket = client.second->getSocketId();
+                if (FD_ISSET(clientSocket, &openedSockets))
+                {
+                    char message[TOTAL_MSG_LENGTH] = "";
+//                    if(recv(newSocketNum, message , 30 , 0) < 0)
+//                    {
+//                        /* todo error */
+//                    }
+                    readMsg(clientSocket,message);
+                    cout << message << endl << flush;
+//                    handleMsg(client, message);
+                }
+            }
+}
+
+
+int WhatsappServer::readMsg(int socketNum, char *buffer) {
+    char * temp = new char[3];
+    char * pointerBuffer = temp;
+
+    int bcount = 0;       /* counts bytes read */
+    int br = 0;           /* bytes read this pass */
+    int found = 1;
+
+    while (bcount < 3)
+    {
+        br = read(socketNum, temp, 3-bcount);
+
+        if (br >= 0)
+        {
+            bcount += br;
+            temp += br;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    int msgLength = atoi(pointerBuffer);
+//    delete [] temp;           /* todo delete */
+
+    bcount = 0;
+
+    while (bcount < msgLength) { /* loop until full buffer */
+        br = read(socketNum, buffer, msgLength-bcount);
+        if (br >= 0){
+            bcount += br;
+            buffer += br;
+        } else {
+            return -1;
+        }
+    }
+
+    return bcount;
+}
+
+
+
+
+/* ------------------------ In Progress Functions ------------------------------------------ */
+
+void WhatsappServer::create_group(string groupName, string callerName,
+                                  vector<string> members){
+    if (isClientExist(groupName)== 0 || isGroupExist(groupName) == 0)
+    {
+        /* todo error */
+        return;
+    }
+
+    /* todo fix set */
+    set<string> names;
+    set<ClientInfo*> clientsInGroup;
+    map<string,ClientInfo*>::iterator it;
+
+    it = clients.find(callerName);
+    if (it == clients.end())
+    {
+        return;
+    }
+    names.insert(callerName);
+
+    it = clients.begin();
+
+    for (string member: members)
+    {
+        auto client = clients.find(member);
+        if (client != clients.end())
+        {
+            if (names.find(member) != names.end())
+            {
+                names.insert(it->first);
+                clientsInGroup.insert(it->second);
+
+            }
+        }
+    }
+
+    Group * group = new Group(groupName,clientsInGroup);
+    groups.insert(make_pair(groupName,group));
+}
 
 void WhatsappServer::sendMsg(string senderName, string receiverName, string msg){}
 
@@ -341,6 +358,45 @@ void WhatsappServer::sendMsg(string senderName, string receiverName, string msg)
  * client names (alphabetically order), separated by comma without spaces.
  * @param senderName
  */
-void WhatsappServer::who(string caller){}
+void WhatsappServer::who(string caller){
+    string msg("");
+    bool first = true;
 
-void WhatsappServer::exit(string caller){}
+    /* todo sort ? */
+
+
+    map<string,ClientInfo*>::iterator it;
+    it = clients.find(caller);
+    if (it == clients.end())
+    {
+        return;
+    }
+
+    it = clients.begin();
+
+    while (it != clients.end())
+    {
+            if (!first)
+            {
+                msg += ",";
+
+            } else
+            {
+                first = false;
+            }
+            msg += it->first;
+            ++it;
+
+    }
+
+    /* add the length to the msg's beginning */
+    if (send(it->second->getSocketId(), msg.c_str(), strlen(msg.c_str()),0) !=
+        strlen(msg.c_str()))
+    {
+        /* todo error */
+    }
+}
+
+void WhatsappServer::exit(string caller){
+
+}
