@@ -5,16 +5,21 @@
 #ifndef SRC_GROUP_H
 #define SRC_GROUP_H
 #include "ClientInfo.h"
+#include <set>
+#include <string>
 
+class ClientInfo;
 using namespace std;
-//Class ClientInfo;
 
 class Group
 {
 private:
     string name;
-//    map<int, ClientInfo *> groups;
+    set<ClientInfo*> clients;
+
 public:
+    Group(string groupName, set<ClientInfo*>);
+    ~Group();
 
 
 
