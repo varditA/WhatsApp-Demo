@@ -58,16 +58,12 @@ int WhatsappClient::clientInit()
 
     if (connect(getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
     {
-        cout << "error connecting" << flush;
 //        close(socketId);
         /*todo error*/
         return -1;
     }
     else {
-        int length = clientName.length();
-        string nameMsg("");
-        nameMsg += to_string(length) + " " + clientName;
-
+        string nameMsg = setMsgLength(clientName) + clientName;
         /* add the length to the msg's beginning */
         if (send(socketId, nameMsg.c_str(), strlen(nameMsg.c_str()),0) !=
                 strlen(nameMsg.c_str()))
@@ -80,7 +76,7 @@ int WhatsappClient::clientInit()
                                                  MAX_HOSTNAME_LENGTH,0));
             if (nbytes > 0)
             {
-                cout << buffer;
+                cout << buffer << endl;
 
             } else
             {
@@ -95,7 +91,7 @@ int WhatsappClient::clientInit()
 /**
  * Wait for client input
  */
-void WhatsappClient::excCommand(char *userInput)
+void WhatsappClient::excCommand(string userInput)
 {
     vector<string> parameters;
     parameters = splitString(parameters, userInput, " ");
@@ -120,6 +116,7 @@ void WhatsappClient::excCommand(char *userInput)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
+
             who();
         }
     } else if(parameters.at(0) == "exit") {
@@ -159,7 +156,7 @@ void WhatsappClient::create_group(string groupName, string clientNames)
     splitString(participants, clientNames, ",");
 
     string toSend = "create_group " + groupName + " " + clientNames;
-    toSend = toSend.length() + " " + toSend;
+    toSend = setMsgLength(toSend) + toSend;
     if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
@@ -168,7 +165,7 @@ void WhatsappClient::create_group(string groupName, string clientNames)
     if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
-    } else { cout << input; }
+    } else { cout << input << endl; }
 }
 
 /**
@@ -187,7 +184,7 @@ void WhatsappClient::sendMsg(string name, string msg)
 {
     string toSend = "send " + name + " " + msg;
 //    *buf = temp.length() + " " + temp;
-    toSend = toSend.length() + " " + toSend;
+    toSend = setMsgLength(toSend) + toSend;
     if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
@@ -196,7 +193,7 @@ void WhatsappClient::sendMsg(string name, string msg)
     if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
-    } else { cout << input; }
+    } else { cout << input << endl; }
 
 }
 
@@ -208,16 +205,19 @@ void WhatsappClient::who()
 {
     string toSend = "who";
 //    *buf = temp.length() + " " + temp;
-    toSend = toSend.length() + " " + toSend;
+    toSend = setMsgLength(toSend) + toSend;
     if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
+        cout << "error? " << endl;
         //todo err
     }
+    cout << toSend << endl;
+
     char input[1000];
     if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
-    } else { cout << input; }
+    } else { cout << input << endl; }
 }
 
 /**
@@ -228,7 +228,7 @@ void WhatsappClient::exit()
 {
     string toSend = "exit";
 //    *buf = temp.length() + " " + temp;
-    toSend = toSend.length() + " " + toSend;
+    toSend = setMsgLength(toSend) + toSend;
     if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
         //todo err
@@ -237,7 +237,7 @@ void WhatsappClient::exit()
     if (recv(socketId, input, 1000, 0) < 0)
     {
         //todo err
-    } else { cout << input; }
+    } else { cout << input << endl; }
 }
 
 /**
@@ -246,7 +246,7 @@ void WhatsappClient::exit()
 */
 void WhatsappClient::clientPrint(string msg)
 {
-    cout << msg;
+    cout << msg << endl;
 }
 
 /**
@@ -255,7 +255,8 @@ void WhatsappClient::clientPrint(string msg)
 * @param character the character to split by
 * @return a vector containing the split strings
 */
-vector<string> WhatsappClient::splitString(vector<string> splitVector, string stringToSplit,
+vector<string> WhatsappClient::splitString(vector<string> splitVector,
+                                           string stringToSplit,
                                            string character)
 {
     unsigned long charLocation = stringToSplit.find(character);
@@ -298,8 +299,29 @@ int WhatsappClient::setHostName() {
     return 0;
 }
 
+string WhatsappClient::setMsgLength(string msg) {
+    string length = "";
+    int size = msg.length();
+    if (size < 10)
+    {
+        length = "00";
+
+    } else if (size < 100)
+    {
+        length = "0";
+    }
+    length = length + to_string(size);
+    return length;
+}
+
 
 int main(int arg, char *argv[]) {
+
+    if (arg != 4)
+    {
+        /* todo error */
+        return 1;
+    }
 
     WhatsappClient client(argv[1], argv[2], argv[3]);
 
@@ -309,12 +331,13 @@ int main(int arg, char *argv[]) {
     }
 
 
-    char *userInput;
-    while (true)
-    {
+//    char *userInput;
+    string userInput;
+//    while (true)
+//    {
         cin >> userInput;
-        client.excCommand(userInput);
-    }
+        client.excCommand(userInput.c_str());
+//    }
 
     return 0;
 }
