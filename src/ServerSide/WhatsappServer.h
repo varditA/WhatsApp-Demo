@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <map>
+#include <set>
 #include "Group.h"
 #include "ClientInfo.h"
 #include <sys/types.h>
@@ -45,6 +46,7 @@ private:
     static const int TOTAL_MSG_LENGTH = 1000;
     char * myName;   /* the host's name */
     struct hostent *hp;                     /* the host's info */
+    int maxId;                              /* the socket's max socket */
 
     struct sockaddr_in sa;                  /* the socket's info */
     int socketId;                           /* the socket's id */
@@ -107,6 +109,7 @@ private:
      */
     int readMsg(int socketNum, char * buffer);
 
+
     void sendMsg(string senderName, string receiverName, string msg);
 
 
@@ -115,7 +118,7 @@ private:
     /**
      * Sends to the caller a list (might be empty) of currently connected
      * client names (alphabetically order), separated by comma without spaces.
-     * @param senderName
+     * @param  the caller's name
      */
     void who(string caller);
 
