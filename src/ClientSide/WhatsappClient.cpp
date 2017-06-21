@@ -17,46 +17,79 @@ string CONNECTION_SUCCESS = "Connected Successfully.\n";
  */
 WhatsappClient::WhatsappClient(char *clientName, char *serverAddress, char *serverPort)
 {
-    this->clientName = clientName;
+    string name(clientName);
+    this->clientName = name;
     this->serverAddress = serverAddress;
     this->serverPort = serverPort;
-    clientInit();
 }
 
 /**
  * The destructor of the class
  */
-WhatsappClient::~WhatsappClient(){}
+WhatsappClient::~WhatsappClient(){
+    delete myName;
+}
 
-void WhatsappClient::clientInit()
+int WhatsappClient::clientInit()
 {
     int portNum = atoi(serverPort);
+    if (setHostName() == -1)
+    {
+        /*todo error*/
+        return -1;
+    }
 
-    hp = gethostbyname(clientName);
+    hp = gethostbyname(myName);
     if (hp == NULL)
     {
         /* todo error */
-        return;
+        return -1;
     }
-    struct sockaddr_in sa = getSa();
-    memset(&sa, 0, sizeof(struct sockaddr_in));
+    memset(&sa, 0, sizeof(sa));
+    memcpy((char *)&sa.sin_addr, hp->h_addr, hp->h_length);
     sa.sin_family = hp->h_addrtype;
-    memcpy(&sa.sin_addr, hp->h_addr, hp->h_length);
-    sa.sin_port= htons(portNum);
-
-    if (connect(getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
-    {
-//        close((int) client.getSocketId());
-        /*todo error*/
-//        return(-1);
-    }
-    else { cout << CONNECTION_SUCCESS; }
+    sa.sin_port = htons((u_short)portNum);
 
     setSocketId(socket(AF_INET, SOCK_STREAM, 0));
     if (getSocketId() < 0) {
         /* todo error */
-//        return(-1);
+        return(-1);
     }
+
+    if (connect(getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
+    {
+        cout << "error connecting" << flush;
+//        close(socketId);
+        /*todo error*/
+        return -1;
+    }
+    else {
+        int length = clientName.length();
+        string nameMsg("");
+        nameMsg += to_string(length) + " " + clientName;
+
+        /* add the length to the msg's beginning */
+        if (send(socketId, nameMsg.c_str(), strlen(nameMsg.c_str()),0) !=
+                strlen(nameMsg.c_str()))
+        {
+            /* todo error */
+        } else
+        {
+            char buffer[MAX_HOSTNAME_LENGTH];
+            int nbytes = TEMP_FAILURE_RETRY(recv(socketId, buffer,
+                                                 MAX_HOSTNAME_LENGTH,0));
+            if (nbytes > 0)
+            {
+                cout << buffer;
+
+            } else
+            {
+                /* todo error */
+            }
+        }
+    }
+
+    return 0;
 }
 
 /**
@@ -251,11 +284,29 @@ struct sockaddr_in WhatsappClient::getSa()
     return sa;
 }
 
+/**
+ * setting the host name
+ * @return 0 if succeed and -1 if not.
+ */
+int WhatsappClient::setHostName() {
+    myName = new char(MAX_HOSTNAME_LENGTH);
+    if (gethostname(myName, MAX_HOSTNAME_LENGTH) != 0)
+    {
+        /* todo error */
+        return -1;
+    }
+    return 0;
+}
+
+
 int main(int arg, char *argv[]) {
 
-    WhatsappClient client = WhatsappClient(argv[1], argv[2], argv[3]);
+    WhatsappClient client(argv[1], argv[2], argv[3]);
 
-//    FD_SET(client.socketId, &openedSockets);
+    if (client.clientInit() < 0)
+    {
+        return 1;
+    }
 
 
     char *userInput;
@@ -264,6 +315,7 @@ int main(int arg, char *argv[]) {
         cin >> userInput;
         client.excCommand(userInput);
     }
+
     return 0;
 }
 
