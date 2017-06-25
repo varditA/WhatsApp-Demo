@@ -47,6 +47,8 @@ private:
     struct hostent *hp;                     /* the host's info */
     char * myName;   /* the host's name */
 
+    void getMsgFromSever(char *buffer);
+
     int socketId;
     struct sockaddr_in sa;
 
@@ -131,6 +133,9 @@ private:
     string setMsgLength(string msg);
 
     int readMsg(int socketNum, char *buffer);
+
+//    bool isNotSpaceDigit(char c);
+
 
 };
 
