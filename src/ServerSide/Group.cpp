@@ -24,6 +24,11 @@ int Group::setGroupMembers(vector <string> clientsNames,
         }
     }
 
+    if (clients.size() < 2)
+    {
+        return -1;
+    }
+
     return 0;
 
 }
