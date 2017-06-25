@@ -10,7 +10,6 @@ Group::Group(string groupName) {
 
 int Group::setGroupMembers(vector <string> clientsNames,
                             map<string, ClientInfo *> clients) {
-    /* todo implement */
     for (string name : clientsNames)
     {
         const auto & clientFound = clients.find(name);
@@ -29,10 +28,14 @@ int Group::setGroupMembers(vector <string> clientsNames,
 
 }
 
+set<ClientInfo*> Group::getGroupMember() {
+    return clients;
+}
+
 void Group::removeFromGroup(ClientInfo *client) {
     clients.erase(client);
 }
 
 Group::~Group() {
-    /*todo remove all clients*/
+    clients.clear();
 }
