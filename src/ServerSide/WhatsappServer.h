@@ -2,141 +2,197 @@
 // Created by Adi Yehezkeli on 2017/06/18.
 //
 
-#ifndef SRC_CLIENT_H
-#define SRC_CLIENT_H
+#ifndef SRC_SERVER_H
+#define SRC_SERVER_H
 
 #include <iostream>
-#include <arpa/inet.h>
-#include <vector>
-#include <stdio.h>
+#include <map>
+#include <set>
+#include "Group.h"
+#include "ClientInfo.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
 #include <string.h>
 #include <netdb.h>
+#include <errno.h>
+#include <unistd.h>
 
-using namespace std;
+const char CONNECT_SUCCESS_MSG []= "Connected successfully.\n";
+const char CONNECT_FAILURE_MSG []= "Failure in connection.\n";
+const char UNREGISTER_SUCCESS_MSG [] = "Unregistered successfully\n";
+const char SERVER_SHUT_DOWN_MSG [] = "The server is shutting down\n";
+const char SENT_SUCCESS_MSG [] = "Sent successfully.\n";
+const char SENT_ERROR_MSG [] = "Error: failed to send.\n";
 
-class WhatsappClient
+
+class WhatsappServer
 {
 public:
-    /**
-     * The constructor of the class
-     */
-    WhatsappClient(char *clientName, char *serverAddress, char *serverPort);
+    WhatsappServer();
+    ~WhatsappServer();
+
+    /** open the connection to the server
+ * @return -1 if the connection failed.
+ *  if it has succeed, returns 0
+ */
+    int activateServer(int PortNum);
 
     /**
-     * The destructor of the class
+     * The function waits for new client. For every new client, it creats
+     * new socket and add it to the server's clients.
      */
-    ~WhatsappClient();
-
-    int clientInit();
-
     int waitForConnection();
 
 
-    /**
-     * Wait for client input
-     */
-    void excCommand(string userInput);  /* todo what should be done here */
-
-    inline int getSocketId(){ return socketId; }
-    void setSocketId(int socketId);
-    struct sockaddr_in getSa();
-
 private:
     static const int MAX_HOSTNAME_LENGTH = 255;
-
-    struct hostent *hp;                     /* the host's info */
+    static const int TOTAL_MSG_LENGTH = 1000;
     char * myName;   /* the host's name */
+    struct hostent *hp;                     /* the host's info */
+    int maxId;                              /* the socket's max socket */
 
-    void getMsgFromSever(char *buffer);
+    struct sockaddr_in sa;                  /* the socket's info */
+    int socketId;                           /* the socket's id */
+    int socketAdd;                          /* the socket's address */
 
-    int socketId;
-    struct sockaddr_in sa;
+    fd_set openedSockets;         /* vector that contains the opened sockets */
+    map<string, ClientInfo *> clients;
+    map<string, Group *> groups;
 
-    string clientName;
-    char *serverAddress;
-    char *serverPort;
-    fd_set fdSet;
-
+    /* ------------- Setting The Server -------------- */
 
     /**
-     * Sends request to create a new group named “group_name” with <list_of_client_names> as group
-     * members. “group_name” is unique (i.e. no other group or client with this name is allowed) and
-     * includes only letters and digits.
-     * <list_of_client_names> is separated by comma without any spaces.
-     * For example:
-     *      create_group osStuff david,tal,netanel,eshed
-     * Notes:
-     *      * It’s invalid to create a group without members.
-     *        The client who sends the request should be part of the group (even if it doesn’t part
-     *        of the received list).
-     *      * A group must contain at least two members (including the client who creates the
-     *        group).
-     *      * If client name appears more than one time in the received list, consider it as
-     *        one instance. For example: calling “create_group tal tal nati” is the same as
-     *       “create_group tal nati”.
-     * @param groupName a string of the group name
-     * @param clientNames a vector of strings of the clients names
+     * setting the host name
+     * @return 0 if succeed and -1 if not.
      */
-    void create_group(string groupName, string clientNames);
-
-    /**
-     * If name is a client name it sends <sender_client_name>: <message> only to the specified
-     * client.
-     * If name is a group name it sends <sender_client_name>: <message> to all group members (except
-     * the sender client).
-     * Notes:
-     *      * Only a group member can send message to the group.
-     *      * The received name must be different than the sender name (i.e. it’s invalid to send
-     *        message only to yourself).
-     * @param name the name of the group member to send to
-     * @param msg the message to send
-     */
-    void sendMsg(string name, string msg);
-
-    /**
-     * Sends a request (to the server) to receive a list (might be empty) of currently connected
-     * client names (alphabetically order), separated by comma without spaces.
-     */
-    void who();
-
-    /**
-     * Unregisters the client from the server and removes it from all groups. After the server
-     * unregistered the client, the client should print “Unregistered successfully” and then exit(0).
-     */
-    void exit();
-
-    /**
-     * Prints a message to the client
-     * @param msg
-     */
-    void clientPrint(string msg);
-
-    /**
-     * Splits a string into a vector of strings by a character
-     * @param stringToSplit the string to split
-     * @param character the character to split by
-     * @return a vector containing the split strings
-     */
-    vector<string> splitString(string stringToSplit, string character);
-
-    /**
-    * setting the host name
-    * @return 0 if succeed and -1 if not.
-    */
     int setHostName();
 
     /**
-     * adding the length of the message in the message's begining.
-     * @param msg - the user's message
-     * @return - the length's message in format XXX (3 digits)
+     * setting a structure of type hostent for the given host name
+     * @return 0 if succeed and -1 if not
      */
+    int setHostent();
+
+    /**
+     * creating a socket for the server's socket.
+     * @return 0 if succeed and -1 if not
+     */
+    int createSocket();
+
+    /**
+     * open a new socket for a new client
+     * @return the socket's num if succeed and 0 otherwise
+     */
+    int getConnection();
+
+    /* ----------- Operating The Server -------------- */
+
+    /**
+     * check if the name is available. Sending a message to the client
+     * accordingly and update the details.
+     */
+    void addNewClient();
+
+    /**
+     * find whom client has sent the message and handle it
+     */
+    void getMsgFromClient();
+
+    /**
+     * check if the recived command is "EXIT".
+     * if it is, sending the clients a message that it's going to be shut down
+     * and exit(1) when they replied with "ok"
+     */
+    void shutDownServer();
+
+    /**
+     * check the command and executing it.
+     * @param clientInput - the client's command
+     * @param client  - the client whom sent the command
+     */
+    void excCommand(string clientInput, ClientInfo * client);
+
+    /**
+     * reading a msg from a socket
+     * @param socketNum - the socket that contains the msg
+     * @param buffer - the buffer that we want to write to.
+     * @return
+     */
+    int readMsg(int socketNum, char * buffer);
+
+    /**
+     * sending a message between clients.
+     * @param senderName
+     * @param receiverName
+     * @param msg
+     */
+
+    /**
+   * reading a msg from a socket
+   * @param socketNum - the socket that contains the msg
+   * @param buffer - the buffer that we want to write to.
+   * @return
+   */
+    int writeMsg(int socketNum, const char * buffer);
+
+
+    /* ----------- Helper Functions ------------------ */
+
+
+    /**
+    * @return 0 if client is existed and -1 if not
+    */
+    int isClientExist(string);
+
+    /**
+    * @return 0 if group is existed and -1 if not
+    */
+    int isGroupExist(string);
+
     string setMsgLength(string msg);
 
-    int readMsg(int socketNum, char *buffer);
+    vector<string> splitString(string stringToSplit, string character);
 
-//    bool isNotSpaceDigit(char c);
+    void deleteClient(ClientInfo * client);
+
+    /* ------------------ Commands ------------------ */
+
+    /**
+     * creating the groups by the group name and its members.
+     * @param groupName
+     * @param members
+     * @param client
+     */
+    void createGroup(string groupName, string members, ClientInfo * client);
+
+    /**
+     * Sends to the caller a list (might be empty) of currently connected
+     * client names (alphabetically order), separated by comma without spaces.
+     * @param  the caller's name
+     */
+    void who(ClientInfo * client);
+
+    /**
+ * sending a message between clients.
+ * @param senderName
+ * @param receiverName
+ * @param msg
+ */
+    void sendMsgBetweenClients(ClientInfo * client, string receiverName,
+                               vector<string> msg);
+
+    int sendMsgToClient(ClientInfo * receiver, string message);
+
+    /**
+     * closing the user's socket and release all its sources.
+     * @param client - the client who needs to be exited.
+     */
+    void shutClientDown(ClientInfo * client);
 
 
 };
 
-#endif //SRC_CLIENT_H
+
+#endif //SRC_SERVER_H
