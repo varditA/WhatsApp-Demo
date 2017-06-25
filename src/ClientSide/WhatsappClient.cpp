@@ -13,6 +13,10 @@
 string INVALIT_INPUT_MSG = "ERROR: Invalid input.\n";
 string UNREGISTER_SUCCESS = "Unregistered successfully\n";
 string CONNECTION_SUCCESS = "Connected Successfully.\n";
+string SEND_ERR = "ERROR: failed to send.\n";
+string CREATE_GROUP_ERR = "ERROR: failed to create group .\n";
+string WHO_ERR = "ERROR: failed to receive list of connected clients.\n";
+string EXIT_ERR = "ERROR: failed to send.\n";
 
 bool isNotSpaceDigit(char c)
 {
@@ -110,9 +114,11 @@ void WhatsappClient::getMsgFromSever(char *buffer)
     {
         buf.substr(buf.find("msg") + 4);
         cout << buf << flush;
+        return;
     }
     else {
         cout << buffer << flush;
+        return;
     }
 }
 
@@ -183,23 +189,23 @@ void WhatsappClient::create_group(string groupName, string clientNames)
         vector<string> participants = splitString(clientNames, ",");
 
         string toSend = "create_group " + groupName + " " + clientNames;
-        cout << "toSend: " << toSend << endl;
         toSend = setMsgLength(toSend) + toSend;
         if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
         {
-            //todo err
+            cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
+            return;
         }
         char buffer[1000] = "";
 
         if (readMsg(socketId,buffer) < 0)
         {
             /* can't get the name*/
-            /* todo error*/
+            cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
             return;
         }
         cout << buffer << flush;
     } else {
-        cout << "ERROR: failed to create group \"" << groupName << "\"\n" << flush;
+        cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
     }
 }
 
@@ -217,18 +223,29 @@ void WhatsappClient::create_group(string groupName, string clientNames)
  */
 void WhatsappClient::sendMsg(string name, string msg)
 {
-    string toSend = "send " + name + " " + msg;
-//    *buf = temp.length() + " " + temp;
-    toSend = setMsgLength(toSend) + toSend;
-    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+    if (name != myName)
     {
-        //todo err
+        string toSend = "send " + name + " " + msg;
+        toSend = setMsgLength(toSend) + toSend;
+        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+        {
+            cout << SEND_ERR << flush;
+            return;
+        }
+        char buffer[1000] = "";
+
+        if (readMsg(socketId,buffer) < 0)
+        {
+            /* can't get the name*/
+            cout << SEND_ERR << flush;
+            return;
+        }
+        cout << buffer << flush;
+    } else
+    {
+        cout << SEND_ERR << flush;
+        return;
     }
-    char input[1000];
-    if (recv(socketId, input, 1000, 0) < 0)
-    {
-        //todo err
-    } else { cout << input; }
 
 }
 
@@ -242,15 +259,14 @@ void WhatsappClient::who()
     toSend = setMsgLength(toSend) + toSend;
     if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
-        cout << "error? " << endl;
-        //todo err
+        cout << WHO_ERR << flush;
+        return;
     }
     char buffer[1000] = "";
 
     if (readMsg(socketId,buffer) < 0)
     {
-        /* can't get the name*/
-        /* todo error*/
+        cout << WHO_ERR << flush;
         return;
     }
 
@@ -268,21 +284,20 @@ void WhatsappClient::exit()
     toSend = setMsgLength(toSend) + toSend;
     if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
     {
-        //todo err
+        cout << "ERROR: unable to exit.\n" << flush;
+        return;
     }
     char buffer[1000] = "";
 
     if (readMsg(socketId,buffer) < 0)
     {
-        /* can't get the name*/
-        /* todo error*/
+        cout << "ERROR: unable to exit.\n" << flush;
         return;
     }
-
+    getMsgFromSever(buffer);
     FD_CLR(socketId, &fdSet);
     close(socketId);
     _exit(0);
-//    getMsgFromSever(buffer);
 }
 
 /**
@@ -291,7 +306,7 @@ void WhatsappClient::exit()
 */
 void WhatsappClient::clientPrint(string msg)
 {
-//    cout << msg << endl;
+    cout << msg << flush;
 }
 
 /**
@@ -463,7 +478,7 @@ int main(int arg, char *argv[]) {
         }
         client.waitForConnection();
     } else {
-        cout << "ERROR: user name in invalid\n" << flush;
+        cout << "ERROR: user name is invalid\n" << flush;
     }
     return 0;
 }
