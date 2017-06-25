@@ -6,6 +6,7 @@
 #define SRC_GROUP_H
 #include "ClientInfo.h"
 #include <set>
+#include <map>
 #include <string>
 
 class ClientInfo;
@@ -17,9 +18,18 @@ private:
     string name;
     set<ClientInfo*> clients;
 
+
+
+
 public:
-    Group(string groupName, set<ClientInfo*>);
+    Group(string groupName);
     ~Group();
+
+    set<ClientInfo*> getGroupMember();
+
+    int setGroupMembers(vector <string> clientsNames,
+                               map<string, ClientInfo *> clients);
+    void removeFromGroup(ClientInfo * client);
 
 
 
