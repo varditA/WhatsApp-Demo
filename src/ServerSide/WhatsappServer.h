@@ -157,6 +157,8 @@ private:
 
     void deleteClient(ClientInfo * client);
 
+    void releaseMemory();
+
     /* ------------------ Commands ------------------ */
 
     /**
