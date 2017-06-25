@@ -4,11 +4,35 @@
 
 #include "Group.h"
 
-Group::Group(string groupName, set<ClientInfo*> clientsInGroup) {
+Group::Group(string groupName) {
     this->name = groupName;
-    for (ClientInfo * client: clientsInGroup)
+}
+
+int Group::setGroupMembers(vector <string> clientsNames,
+                            map<string, ClientInfo *> clients) {
+    /* todo implement */
+    for (string name : clientsNames)
     {
-        client->addGroup(this);
-        clients.insert(client);
+        const auto & clientFound = clients.find(name);
+        if (clientFound != clients.end())
+        {
+            this->clients.insert(clientFound->second);
+            clientFound->second->addGroup(this);
+        } else
+        {
+            /* todo error  - the client isn't existed*/
+            return -1;
+        }
     }
+
+    return 0;
+
+}
+
+void Group::removeFromGroup(ClientInfo *client) {
+    clients.erase(client);
+}
+
+Group::~Group() {
+    /*todo remove all clients*/
 }
