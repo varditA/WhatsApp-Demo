@@ -353,7 +353,6 @@ int WhatsappClient::setHostName() {
     myName = new char(MAX_HOSTNAME_LENGTH);
     if (gethostname(myName, MAX_HOSTNAME_LENGTH) != 0)
     {
-        /* todo error */
         return -1;
     }
     return 0;
@@ -462,8 +461,8 @@ int main(int arg, char *argv[]) {
 
     if (arg != 4)
     {
-        /* todo error */
-        return 1;
+        cout << "Usage: whatsappClient clientName serverAddress serverPort" << flush;
+        return -1;
     }
 
     string name = argv[1];
