@@ -6,4 +6,14 @@
 
 ClientInfo::ClientInfo(int socket, const string name): socketId(socket), name(name) {}
 
-ClientInfo::~ClientInfo() {}
+ClientInfo::~ClientInfo() {
+    deleteFromAllGroups();
+    close(socketId);
+}
+
+void ClientInfo::deleteFromAllGroups() {
+    for (auto& group: groups)
+    {
+        group->removeFromGroup(this);
+    }
+}
