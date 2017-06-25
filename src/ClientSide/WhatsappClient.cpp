@@ -104,8 +104,6 @@ void WhatsappClient::excCommand(string userInput)
     if (parameters.at(0) == "create_group") {
         if (parameters.size() != 3)
         {
-            cout << "bad size. size is : " << parameters.size() << endl;
-            cout << parameters.at(0);
             clientPrint(INVALIT_INPUT_MSG);
         } else {
             create_group(parameters.at(1), parameters.at(2));
@@ -132,7 +130,6 @@ void WhatsappClient::excCommand(string userInput)
             exit();
         }
     } else {
-        cout << "unknown command" << endl;
         clientPrint(INVALIT_INPUT_MSG);
     }
 }
@@ -158,7 +155,6 @@ void WhatsappClient::excCommand(string userInput)
  */
 void WhatsappClient::create_group(string groupName, string clientNames)
 {
-    cout << "inside create group" << endl;
     vector<string> participants = splitString(clientNames, ",");
 
     string toSend = "create_group " + groupName + " " + clientNames;
@@ -276,22 +272,29 @@ void WhatsappClient::clientPrint(string msg)
 vector<string> WhatsappClient::splitString(string stringToSplit,
                                            string character)
 {
+    string name = "me";
     vector<string> splitVector;
     unsigned long charLocation = stringToSplit.find(character);
-    if (charLocation == string::npos)
+//    unsigned long previous = -1;
+//    if (charLocation == std::string::npos)
+//    {
+//        splitVector.push_back(stringToSplit);
+//    }
+    while ((charLocation != std::string::npos))
     {
-        splitVector.push_back(stringToSplit);
-        cout << "push_back npos: " << stringToSplit <<endl;
-    }
-    while (charLocation != string::npos)
-    {
+        cout << "length: " << name.length() << endl;
         string name = stringToSplit.substr(0, charLocation);
+//        cout << "previous: " << previous << endl;
+//        cout << "charLocation: " << charLocation << endl;
+//        previous = charLocation;
         splitVector.push_back(name);
         cout << "push_back: " << name <<endl;
-//        stringToSplit = stringToSplit.substr(charLocation);
+        stringToSplit = stringToSplit.substr(charLocation + 1);
         charLocation = stringToSplit.find(character);
     }
 
+    splitVector.push_back(stringToSplit);
+//    cout << "split vector: " << splitVector <<endl;
     return splitVector;
 }
 
@@ -354,9 +357,11 @@ int WhatsappClient::waitForConnection() {
             //todo get msg from server
         } else
         {
-            string userInput;
-            cin >> userInput;
-            excCommand(userInput.c_str());
+            char userInput[1000];
+            cin.getline(userInput,1000);
+            cout << "the input is: " << userInput << endl;
+            string strInput = (string) userInput;
+            excCommand(strInput.c_str());
         }
 
         /* todo remove socket from openedsockets using FD_CLR */
