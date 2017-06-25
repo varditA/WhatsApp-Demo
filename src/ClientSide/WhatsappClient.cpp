@@ -46,14 +46,13 @@ int WhatsappClient::clientInit()
     int portNum = atoi(serverPort);
     if (setHostName() == -1)
     {
-        /*todo error*/
         return -1;
     }
 
     hp = gethostbyname(myName);
     if (hp == NULL)
     {
-        /* todo error */
+        cerr << "ERROR: gethostbyname " << errno << ".\n" << flush;
         return -1;
     }
     memset(&sa, 0, sizeof(sa));
@@ -64,7 +63,7 @@ int WhatsappClient::clientInit()
 
     setSocketId(socket(AF_INET, SOCK_STREAM, 0));
     if (getSocketId() < 0) {
-        /* todo error */
+        cerr << "ERROR: socket " << errno << ".\n" << flush;
         return(-1);
     }
 
@@ -73,24 +72,24 @@ int WhatsappClient::clientInit()
     if (connect(getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
     {
 //        close(socketId);
-        /*todo error*/
+        cerr << "ERROR: connect " << errno << ".\n" << flush;
         return -1;
     }
     else {
         string nameMsg = setMsgLength(clientName) + clientName;
         /* add the length to the msg's beginning */
-        if (send(socketId, nameMsg.c_str(), strlen(nameMsg.c_str()),0) !=
-                strlen(nameMsg.c_str()))
-        {
-            /* todo error */
+        if (writeMsgToServer(socketId, nameMsg.c_str())){
+//        if (send(socketId, nameMsg.c_str(), strlen(nameMsg.c_str()),0) !=
+//                strlen(nameMsg.c_str()))
+//        {
+//            cout << "ERROR: unable to connect.\n" << flush;
         } else
         {
             char buffer[1000] = "";
 
             if (readMsg(socketId,buffer) < 0)
             {
-                /* can't get the name*/
-                /* todo error*/
+//                cout << "ERROR: unable to connect.\n" << flush;
             } else
             {
                 getMsgFromSever(buffer);
@@ -138,11 +137,20 @@ void WhatsappClient::excCommand(string userInput)
             create_group(parameters.at(1), parameters.at(2));
         }
     } else if(parameters.at(0) == "send") {
-        if (parameters.size() != 3)
+        if (parameters.size() < 3)
         {
             clientPrint(INVALIT_INPUT_MSG);
         } else {
-            sendMsg(parameters.at(1), parameters.at(2));
+            string msg = "";
+            for (int i = 2; i < parameters.size() + 1; i++)
+            {
+                msg += parameters[i];
+                if(i < parameters.size())
+                {
+                    msg += " ";
+                }
+            }
+            sendMsg(parameters.at(1), msg);
         }
     } else if(parameters.at(0) == "who") {
         if (parameters.size() != 1)
@@ -190,10 +198,11 @@ void WhatsappClient::create_group(string groupName, string clientNames)
 
         string toSend = "create_group " + groupName + " " + clientNames;
         toSend = setMsgLength(toSend) + toSend;
-        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-        {
-            cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
-            return;
+        if (writeMsgToServer(socketId, toSend.c_str())){
+//        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+//        {
+//            cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
+//            return;
         }
         char buffer[1000] = "";
 
@@ -227,8 +236,9 @@ void WhatsappClient::sendMsg(string name, string msg)
     {
         string toSend = "send " + name + " " + msg;
         toSend = setMsgLength(toSend) + toSend;
-        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-        {
+        if (writeMsgToServer(socketId, toSend.c_str())){
+//        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+//        {
             cout << SEND_ERR << flush;
             return;
         }
@@ -257,8 +267,9 @@ void WhatsappClient::who()
 {
     string toSend = "who";
     toSend = setMsgLength(toSend) + toSend;
-    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-    {
+    if (writeMsgToServer(socketId, toSend.c_str())){
+//    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+//    {
         cout << WHO_ERR << flush;
         return;
     }
@@ -282,16 +293,17 @@ void WhatsappClient::exit()
     string toSend = "exit";
 //    *buf = temp.length() + " " + temp;
     toSend = setMsgLength(toSend) + toSend;
-    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-    {
-        cout << "ERROR: unable to exit.\n" << flush;
+    if (writeMsgToServer(socketId, toSend.c_str())){
+//    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+//    {
+//        cout << "ERROR: unable to exit.\n" << flush;
         return;
     }
     char buffer[1000] = "";
 
     if (readMsg(socketId,buffer) < 0)
     {
-        cout << "ERROR: unable to exit.\n" << flush;
+//        cout << "ERROR: unable to exit.\n" << flush;
         return;
     }
     getMsgFromSever(buffer);
@@ -353,6 +365,7 @@ int WhatsappClient::setHostName() {
     myName = new char(MAX_HOSTNAME_LENGTH);
     if (gethostname(myName, MAX_HOSTNAME_LENGTH) != 0)
     {
+        cerr << "ERROR: gethostname " << errno << ".\n" << flush;
         return -1;
     }
     return 0;
@@ -384,20 +397,19 @@ int WhatsappClient::waitForConnection() {
 
         if (usingSelect < 0 && errno != EINTR)
         {
-            /* todo error */
+            cerr << "ERROR: select " << errno << ".\n" << flush;
         }
 
         /* the main socket has been called, else : one of the other sockets*/
         if (FD_ISSET(socketId, &fdSet))
         {
-            char *msg = new char[1000];
+//            char *msg = new char[1000];
+            char msg[1000] = "";
             readMsg(socketId, msg);
             getMsgFromSever(msg);
-//            cout << msg;
-            //todo get msg from server
         } else
         {
-            char userInput[1000];
+            char userInput[1000] = "";
             cin.getline(userInput,1000);
             string strInput = (string) userInput;
             excCommand(strInput.c_str());
@@ -411,6 +423,7 @@ int WhatsappClient::waitForConnection() {
 int WhatsappClient::readMsg(int socketNum, char *buffer) {
 
     char * temp = new char[3];
+//    char temp[3] = "";
     char * pointerBuffer = temp;
 
     int bcount = 0;       /* counts bytes read */
@@ -455,7 +468,23 @@ int WhatsappClient::readMsg(int socketNum, char *buffer) {
 //{
 //    return !(isalpha(c) || isdigit(c));
 //}
+int WhatsappClient::writeMsgToServer(int socketNum, const char *buffer) {
+    int msgLength = strlen(buffer);
+    int bcount = 0;       /* counts bytes read */
+    int br = 0;           /* bytes read this pass */
 
+    while (bcount < msgLength) { /* loop until full buffer */
+        br = write(socketNum, buffer, msgLength-bcount);
+        if (br >= 0){
+            bcount += br;
+            buffer += br;
+        } else {
+            return -1;
+        }
+    }
+
+    return bcount;
+}
 
 int main(int arg, char *argv[]) {
 
