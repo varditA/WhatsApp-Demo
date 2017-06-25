@@ -3,14 +3,21 @@
 //
 
 #include <iostream>
+#include <unistd.h>
 #include <zconf.h>
 #include "WhatsappClient.h"
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <algorithm>
 
 string INVALIT_INPUT_MSG = "ERROR: Invalid input.\n";
 string UNREGISTER_SUCCESS = "Unregistered successfully\n";
 string CONNECTION_SUCCESS = "Connected Successfully.\n";
+
+bool isNotSpaceDigit(char c)
+{
+    return !(isalpha(c) || isdigit(c));
+}
 
 /**
  * The constructor of the class
@@ -21,8 +28,6 @@ WhatsappClient::WhatsappClient(char *clientName, char *serverAddress, char *serv
     this->clientName = name;
     this->serverAddress = serverAddress;
     this->serverPort = serverPort;
-    FD_ZERO(&fdSet);
-    FD_SET(0, &fdSet);
 }
 
 /**
@@ -76,21 +81,39 @@ int WhatsappClient::clientInit()
             /* todo error */
         } else
         {
-            char buffer[MAX_HOSTNAME_LENGTH];
-            int nbytes = TEMP_FAILURE_RETRY(recv(socketId, buffer,
-                                                 MAX_HOSTNAME_LENGTH,0));
-            if (nbytes > 0)
-            {
-                //todo print things
+            char buffer[1000] = "";
 
+            if (readMsg(socketId,buffer) < 0)
+            {
+                /* can't get the name*/
+                /* todo error*/
             } else
             {
-                /* todo error */
+                getMsgFromSever(buffer);
             }
         }
     }
 
     return 0;
+}
+
+void WhatsappClient::getMsgFromSever(char *buffer)
+{
+    string buf = (string) buffer;
+    if(buf == "The server is shutting down\n")
+    {
+        FD_CLR(socketId, &fdSet);
+        close(socketId);
+        _exit(0);
+    }
+    else if(buf.find("msg"))
+    {
+        buf.substr(buf.find("msg") + 4);
+        cout << buf << flush;
+    }
+    else {
+        cout << buffer << flush;
+    }
 }
 
 /**
@@ -155,24 +178,29 @@ void WhatsappClient::excCommand(string userInput)
  */
 void WhatsappClient::create_group(string groupName, string clientNames)
 {
-    vector<string> participants = splitString(clientNames, ",");
-
-    string toSend = "create_group " + groupName + " " + clientNames;
-    toSend = setMsgLength(toSend) + toSend;
-    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+    if (find_if(groupName.begin(), groupName.end(), isNotSpaceDigit) == groupName.end())
     {
-        //todo err
-    }
-    char buffer[1000] = "";
+        vector<string> participants = splitString(clientNames, ",");
 
-    if (readMsg(socketId,buffer) < 0)
-    {
-        /* can't get the name*/
-        /* todo error*/
-        return;
-    }
+        string toSend = "create_group " + groupName + " " + clientNames;
+        cout << "toSend: " << toSend << endl;
+        toSend = setMsgLength(toSend) + toSend;
+        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
+        {
+            //todo err
+        }
+        char buffer[1000] = "";
 
-    cout << buffer << flush;
+        if (readMsg(socketId,buffer) < 0)
+        {
+            /* can't get the name*/
+            /* todo error*/
+            return;
+        }
+        cout << buffer << flush;
+    } else {
+        cout << "ERROR: failed to create group \"" << groupName << "\"\n" << flush;
+    }
 }
 
 /**
@@ -226,7 +254,7 @@ void WhatsappClient::who()
         return;
     }
 
-    cout << buffer << flush;
+    getMsgFromSever(buffer);
 }
 
 /**
@@ -251,7 +279,10 @@ void WhatsappClient::exit()
         return;
     }
 
-    cout << buffer << flush;
+    FD_CLR(socketId, &fdSet);
+    close(socketId);
+    _exit(0);
+//    getMsgFromSever(buffer);
 }
 
 /**
@@ -275,26 +306,17 @@ vector<string> WhatsappClient::splitString(string stringToSplit,
     string name = "me";
     vector<string> splitVector;
     unsigned long charLocation = stringToSplit.find(character);
-//    unsigned long previous = -1;
-//    if (charLocation == std::string::npos)
-//    {
-//        splitVector.push_back(stringToSplit);
-//    }
+
     while ((charLocation != std::string::npos))
     {
-        cout << "length: " << name.length() << endl;
         string name = stringToSplit.substr(0, charLocation);
-//        cout << "previous: " << previous << endl;
-//        cout << "charLocation: " << charLocation << endl;
-//        previous = charLocation;
+
         splitVector.push_back(name);
-        cout << "push_back: " << name <<endl;
         stringToSplit = stringToSplit.substr(charLocation + 1);
         charLocation = stringToSplit.find(character);
     }
 
     splitVector.push_back(stringToSplit);
-//    cout << "split vector: " << splitVector <<endl;
     return splitVector;
 }
 
@@ -340,6 +362,9 @@ string WhatsappClient::setMsgLength(string msg) {
 int WhatsappClient::waitForConnection() {
     while (true)
     {
+        FD_ZERO(&fdSet);
+        FD_SET(0, &fdSet);
+        FD_SET(socketId, &fdSet);
         /* check which socket has been activated */
         int usingSelect = select(socketId + 1, &fdSet, NULL, NULL, NULL);
 
@@ -353,22 +378,24 @@ int WhatsappClient::waitForConnection() {
         {
             char *msg = new char[1000];
             readMsg(socketId, msg);
+            getMsgFromSever(msg);
 //            cout << msg;
             //todo get msg from server
         } else
         {
             char userInput[1000];
             cin.getline(userInput,1000);
-            cout << "the input is: " << userInput << endl;
             string strInput = (string) userInput;
             excCommand(strInput.c_str());
         }
 
-        /* todo remove socket from openedsockets using FD_CLR */
+        FD_CLR(0, &fdSet);
+        FD_CLR(socketId, &fdSet);
     }
 }
 
 int WhatsappClient::readMsg(int socketNum, char *buffer) {
+
     char * temp = new char[3];
     char * pointerBuffer = temp;
 
@@ -378,6 +405,7 @@ int WhatsappClient::readMsg(int socketNum, char *buffer) {
 
     while (bcount < 3)
     {
+
         br = read(socketNum, temp, 3-bcount);
 
         if (br >= 0)
@@ -409,6 +437,11 @@ int WhatsappClient::readMsg(int socketNum, char *buffer) {
     return bcount;
 }
 
+//bool WhatsappClient::isNotSpaceDigit(char c)
+//{
+//    return !(isalpha(c) || isdigit(c));
+//}
+
 
 int main(int arg, char *argv[]) {
 
@@ -418,15 +451,20 @@ int main(int arg, char *argv[]) {
         return 1;
     }
 
-    WhatsappClient client(argv[1], argv[2], argv[3]);
+    string name = argv[1];
 
-    if (client.clientInit() < 0)
+    if (find_if(name.begin(), name.end(), isNotSpaceDigit) == (name.end()))
     {
-        return 1;
+        WhatsappClient client(argv[1], argv[2], argv[3]);
+
+        if (client.clientInit() < 0)
+        {
+            return 1;
+        }
+        client.waitForConnection();
+    } else {
+        cout << "ERROR: user name in invalid\n" << flush;
     }
-
-    client.waitForConnection();
-
     return 0;
 }
 
