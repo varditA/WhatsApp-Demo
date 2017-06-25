@@ -6,10 +6,12 @@
 #define EX5_CLIENTINFO_H
 
 #include <iostream>
+#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <vector>
 #include "Group.h"
+
 
 class Group;
 using namespace std;
@@ -40,6 +42,8 @@ public:
     inline void addGroup(Group * group) {
         this->groups.push_back(group);
     }
+
+    void deleteFromAllGroups();
 
 
 };
