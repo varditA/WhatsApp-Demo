@@ -29,6 +29,8 @@ public:
 
     int clientInit();
 
+    int waitForConnection();
+
 
     /**
      * Wait for client input
@@ -51,6 +53,7 @@ private:
     string clientName;
     char *serverAddress;
     char *serverPort;
+    fd_set fdSet;
 
 
     /**
@@ -112,7 +115,7 @@ private:
      * @param character the character to split by
      * @return a vector containing the split strings
      */
-    vector<string> splitString(vector<string> splitVector, string stringToSplit, string character);
+    vector<string> splitString(string stringToSplit, string character);
 
     /**
     * setting the host name
@@ -126,6 +129,8 @@ private:
      * @return - the length's message in format XXX (3 digits)
      */
     string setMsgLength(string msg);
+
+    int readMsg(int socketNum, char *buffer);
 
 };
 
