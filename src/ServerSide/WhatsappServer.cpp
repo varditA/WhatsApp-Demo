@@ -68,7 +68,6 @@ int WhatsappServer::activateServer(int portNum) {
         return -1;
     }
 
-    /* todo put in createSocket ? */
     sa.sin_family = hp->h_addrtype;
     sa.sin_port= htons(portNum);
     sa.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -611,54 +610,92 @@ void WhatsappServer::sendMsgBetweenClients(ClientInfo * client,
                                            string receiverName,
                                            vector<string> msg)
 {
+    /* search if receiver is a client of a group */
+    bool isReceiverGroup = false;
+    if (isClientExist(receiverName) != 0)
+    {
+        if (isGroupExist(receiverName) != 0)
+        {
+            string msgToSend = setMsgLength(SENT_ERROR_MSG) + SENT_ERROR_MSG;
+            if (writeMsg(client->getSocketId(),msgToSend.c_str()) < 0)
+            {
+                /* todo error*/
+            }
+            return;
+        }
+        isReceiverGroup = true;
+    }
+
+    /* setting the message */
     string msgToSend= "";
     for (int i = 2; i < msg.size(); i++)
     {
         msgToSend += msg[i] + " ";
     }
 
-    ClientInfo * receiver;
-    bool foundReceiver = false;
-
-    for (auto& client : clients)
-    {
-        if (client.first == receiverName)
-        {
-            receiver = client.second;
-            foundReceiver = true;
-
-        }
-    }
-
-//    cout << receiverName << flush;
-//    cout << foundReceiver << flush;
-
-    if (!foundReceiver)
-    {
-        msgToSend = setMsgLength(SENT_ERROR_MSG) + SENT_ERROR_MSG;
-        if (writeMsg(client->getSocketId(),msgToSend.c_str()) < 0)
-        {
-            /* todo error*/
-        }
-        return;
-    }
+    string msgToReceiver = client->getName() + ": " + msgToSend + "\n";
+    msgToReceiver = setMsgLength(msgToReceiver) + msgToReceiver;
 
 
     string successMsg = client->getName() + ": \"" + msgToSend + "\" " +
-            "was sent successfully to " + receiverName + "\n";
+                        "was sent successfully to " + receiverName + "\n";
 
-    msgToSend = client->getName() + ": " + msgToSend + "\n";
-    msgToSend = setMsgLength(msgToSend) + msgToSend;
-    if (writeMsg(receiver->getSocketId(),msgToSend.c_str()) < 0)
+    /* if the receiver is a group */
+    if (isReceiverGroup)
     {
-        /* todo error*/
-        return;
-    } else
-    {
-        msgToSend = setMsgLength(SENT_SUCCESS_MSG) + SENT_SUCCESS_MSG;
-        if (writeMsg(client->getSocketId(),msgToSend.c_str()) < 0)
+        Group * receiverGroup;
+
+        for (auto& group : groups)
         {
+            if (group.first == receiverName)
+            {
+                receiverGroup = group.second;
+            }
+        }
+
+        for (ClientInfo * receiver: receiverGroup->getGroupMember())
+        {
+            if (sendMsgToClient(receiver, msgToReceiver) == 0)
+            {
+
+            } else
+            {
                 /* todo error */
+                return;
+            }
+        }
+
+        string message = setMsgLength(SENT_SUCCESS_MSG) + SENT_SUCCESS_MSG;
+        if (writeMsg(client->getSocketId(),message.c_str()) < 0)
+        {
+            /* todo error */
+        }
+
+
+        return;
+    }
+
+    /* if the receiver is a client */
+
+    else
+    {
+        ClientInfo * receiver;
+
+        for (auto& client : clients)
+        {
+            if (client.first == receiverName)
+            {
+                receiver = client.second;
+            }
+        }
+
+        if (sendMsgToClient(receiver, msgToReceiver) == 0)
+        {
+            string message = setMsgLength(SENT_SUCCESS_MSG) + SENT_SUCCESS_MSG;
+            if (writeMsg(client->getSocketId(),message.c_str()) < 0)
+            {
+                    /* todo error */
+            }
         }
     }
 
@@ -666,6 +703,15 @@ void WhatsappServer::sendMsgBetweenClients(ClientInfo * client,
 
 }
 
+int WhatsappServer::sendMsgToClient(ClientInfo *receiver, string message) {
+    if (writeMsg(receiver->getSocketId(),message.c_str()) < 0)
+    {
+        /* todo error*/
+        return -1;
+    }
+    return 0;
+
+}
 void WhatsappServer::shutClientDown(ClientInfo *client) {
          string msg = setMsgLength(UNREGISTER_SUCCESS_MSG) + UNREGISTER_SUCCESS_MSG;
          if (writeMsg(client->getSocketId(), msg.c_str()) < 0)
