@@ -45,6 +45,9 @@ public:
 
     void deleteFromAllGroups();
 
+    void deleteFromGroup(Group * group);
+
+
 
 };
 
