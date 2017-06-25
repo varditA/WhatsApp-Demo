@@ -35,11 +35,12 @@ public:
     /**
      * Wait for client input
      */
-    void excCommand(string userInput);  /* todo what should be done here */
+    void excCommand(string userInput);
 
     inline int getSocketId(){ return socketId; }
     void setSocketId(int socketId);
     struct sockaddr_in getSa();
+    int writeMsgToServer(int socketNum, const char *buffer);
 
 private:
     static const int MAX_HOSTNAME_LENGTH = 255;
