@@ -12,14 +12,13 @@
 class ClientInfo;
 using namespace std;
 
+/* represents a group of clients that is saved by the server */
+
 class Group
 {
 private:
     string name;
-    set<ClientInfo*> clients;
-
-
-
+    set<ClientInfo*> clientsInGroup;
 
 public:
     Group(string groupName);
@@ -28,7 +27,7 @@ public:
     set<ClientInfo*> getGroupMember();
 
     int setGroupMembers(vector <string> clientsNames,
-                               map<string, ClientInfo *> clients);
+                               map<string, ClientInfo *> clientsInServer);
     void removeFromGroup(ClientInfo * client);
 
 
