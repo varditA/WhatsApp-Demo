@@ -18,11 +18,16 @@
 #include <netdb.h>
 #include <errno.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ioctl.h>
 
+
+const char USAGE_ERROR_MSG [] = "Usage: whatsappServer portNum";
 const char CONNECT_SUCCESS_MSG []= "Connected successfully.\n";
-const char CONNECT_FAILURE_MSG []= "Failure in connection.\n";
-const char UNREGISTER_SUCCESS_MSG [] = "Unregistered successfully\n";
-const char SERVER_SHUT_DOWN_MSG [] = "The server is shutting down\n";
+const char CONNECT_FAILURE_MSG []= "Client name is already in use.\n";
+const char UNREGISTER_SUCCESS_MSG [] = "Unregistered successfully.\n";
+const char SERVER_SHUT_DOWN_MSG [] = "The server is shutting down.\n";
 const char SENT_SUCCESS_MSG [] = "Sent successfully.\n";
 const char SENT_ERROR_MSG [] = "Error: failed to send.\n";
 
@@ -93,26 +98,26 @@ private:
      * check if the name is available. Sending a message to the client
      * accordingly and update the details.
      */
-    void addNewClient();
+    int addNewClient();
 
     /**
      * find whom client has sent the message and handle it
      */
-    void getMsgFromClient();
+    int getMsgFromClient();
 
     /**
      * check if the recived command is "EXIT".
      * if it is, sending the clients a message that it's going to be shut down
      * and exit(1) when they replied with "ok"
      */
-    void shutDownServer();
+    int shutDownServer();
 
     /**
      * check the command and executing it.
      * @param clientInput - the client's command
      * @param client  - the client whom sent the command
      */
-    void excCommand(string clientInput, ClientInfo * client);
+    int excCommand(string clientInput, ClientInfo * client);
 
     /**
      * reading a msg from a socket
@@ -167,14 +172,14 @@ private:
      * @param members
      * @param client
      */
-    void createGroup(string groupName, string members, ClientInfo * client);
+    int createGroup(string groupName, string members, ClientInfo * client);
 
     /**
      * Sends to the caller a list (might be empty) of currently connected
      * client names (alphabetically order), separated by comma without spaces.
      * @param  the caller's name
      */
-    void who(ClientInfo * client);
+    int who(ClientInfo * client);
 
     /**
  * sending a message between clients.
@@ -182,7 +187,7 @@ private:
  * @param receiverName
  * @param msg
  */
-    void sendMsgBetweenClients(ClientInfo * client, string receiverName,
+    int sendMsgBetweenClients(ClientInfo * client, string receiverName,
                                vector<string> msg);
 
     int sendMsgToClient(ClientInfo * receiver, string message);
@@ -191,7 +196,7 @@ private:
      * closing the user's socket and release all its sources.
      * @param client - the client who needs to be exited.
      */
-    void shutClientDown(ClientInfo * client);
+    int shutClientDown(ClientInfo * client);
 
 
 };
