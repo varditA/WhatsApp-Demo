@@ -11,10 +11,10 @@
 #include <algorithm>
 
 string INVALIT_INPUT_MSG = "ERROR: Invalid input.\n";
-string UNREGISTER_SUCCESS = "Unregistered successfully\n";
+string UNREGISTER_SUCCESS = "Unregistered successfully.\n";
 string CONNECTION_SUCCESS = "Connected Successfully.\n";
 string SEND_ERR = "ERROR: failed to send.\n";
-string CREATE_GROUP_ERR = "ERROR: failed to create group .\n";
+string CREATE_GROUP_ERR = "ERROR: failed to create group ";
 string WHO_ERR = "ERROR: failed to receive list of connected clients.\n";
 string EXIT_ERR = "ERROR: failed to send.\n";
 
@@ -26,7 +26,8 @@ bool isNotSpaceDigit(char c)
 /**
  * The constructor of the class
  */
-WhatsappClient::WhatsappClient(char *clientName, char *serverAddress, char *serverPort)
+WhatsappClient::WhatsappClient(char *clientName, char *serverAddress,
+                               char *serverPort)
 {
     string name(clientName);
     this->clientName = name;
@@ -69,30 +70,36 @@ int WhatsappClient::clientInit()
 
     FD_SET(socketId, &fdSet);
 
-    if (connect(getSocketId(), (struct sockaddr *)&sa , sizeof(struct sockaddr_in)) < 0)
+    if (connect(getSocketId(), (struct sockaddr *)&sa ,
+                sizeof(struct sockaddr_in)) < 0)
     {
-//        close(socketId);
+        close(socketId);
         cerr << "ERROR: connect " << errno << ".\n" << flush;
         return -1;
     }
     else {
         string nameMsg = setMsgLength(clientName) + clientName;
         /* add the length to the msg's beginning */
-        if (writeMsgToServer(socketId, nameMsg.c_str())){
-//        if (send(socketId, nameMsg.c_str(), strlen(nameMsg.c_str()),0) !=
-//                strlen(nameMsg.c_str()))
-//        {
-//            cout << "ERROR: unable to connect.\n" << flush;
+        if (writeMsgToServer(socketId, nameMsg.c_str()) < 0){
+            return -1;
         } else
         {
             char buffer[1000] = "";
 
             if (readMsg(socketId,buffer) < 0)
             {
-//                cout << "ERROR: unable to connect.\n" << flush;
+                close(socketId);
+                return -1;
             } else
             {
-                getMsgFromSever(buffer);
+                string buf(buffer);
+                if (buf == "Client name is already in use.\n")
+                {
+                    cout << buf << flush;
+                    close(socketId);
+                    return -1;
+                }
+               getMsgFromSever(buffer);
             }
         }
     }
@@ -114,8 +121,7 @@ void WhatsappClient::getMsgFromSever(char *buffer)
         buf.substr(buf.find("msg") + 4);
         cout << buf << flush;
         return;
-    }
-    else {
+    } else {
         cout << buffer << flush;
         return;
     }
@@ -142,15 +148,21 @@ void WhatsappClient::excCommand(string userInput)
             clientPrint(INVALIT_INPUT_MSG);
         } else {
             string msg = "";
-            for (int i = 2; i < parameters.size() + 1; i++)
+            for (int i = 2; i < (int) parameters.size() + 1; i++)
             {
                 msg += parameters[i];
-                if(i < parameters.size())
+                if(i < (int) parameters.size())
                 {
                     msg += " ";
                 }
             }
-            sendMsg(parameters.at(1), msg);
+            if (parameters.at(1) == clientName)
+            {
+                clientPrint(INVALIT_INPUT_MSG);
+            } else
+            {
+                sendMsg(parameters.at(1), msg);
+            }
         }
     } else if(parameters.at(0) == "who") {
         if (parameters.size() != 1)
@@ -172,37 +184,41 @@ void WhatsappClient::excCommand(string userInput)
 }
 
 /**
- * Sends request to create a new group named “group_name” with <list_of_client_names> as group
- * members. “group_name” is unique (i.e. no other group or client with this name is allowed) and
+ * Sends request to create a new group named “group_name” with
+ * <list_of_client_names> as group
+ * members. “group_name” is unique (i.e. no other group or client with this
+ * name is allowed) and
  * includes only letters and digits.
  * <list_of_client_names> is separated by comma without any spaces.
  * For example:
  *      create_group osStuff david,tal,netanel,eshed
  * Notes:
  *      * It’s invalid to create a group without members.
- *        The client who sends the request should be part of the group (even if it doesn’t part
+ *        The client who sends the request should be part of the group (even if
+ *        it doesn’t part
  *        of the received list).
- *      * A group must contain at least two members (including the client who creates the
+ *      * A group must contain at least two members (including the client who
+ *      creates the
  *        group).
- *      * If client name appears more than one time in the received list, consider it as
- *        one instance. For example: calling “create_group tal tal nati” is the same as
+ *      * If client name appears more than one time in the received list,
+ *      consider it as
+ *        one instance. For example: calling “create_group tal tal nati” is
+ *        the same as
  *       “create_group tal nati”.
  * @param groupName a string of the group name
  * @param clientNames a string of of the clients names as arrived from the user
  */
 void WhatsappClient::create_group(string groupName, string clientNames)
 {
-    if (find_if(groupName.begin(), groupName.end(), isNotSpaceDigit) == groupName.end())
+    if (find_if(groupName.begin(), groupName.end(),
+                isNotSpaceDigit) == groupName.end())
     {
         vector<string> participants = splitString(clientNames, ",");
 
         string toSend = "create_group " + groupName + " " + clientNames;
         toSend = setMsgLength(toSend) + toSend;
-        if (writeMsgToServer(socketId, toSend.c_str())){
-//        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-//        {
-//            cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
-//            return;
+        if (writeMsgToServer(socketId, toSend.c_str()) < 0){
+            cout << CREATE_GROUP_ERR << "\"" << groupName << "\"\n" << flush;
         }
         char buffer[1000] = "";
 
@@ -219,14 +235,15 @@ void WhatsappClient::create_group(string groupName, string clientNames)
 }
 
 /**
- * If name is a client name it sends <sender_client_name>: <message> only to the specified
- * client.
- * If name is a group name it sends <sender_client_name>: <message> to all group members (except
- * the sender client).
+ * If name is a client name it sends <sender_client_name>: <message> only to
+ * the specified * client.
+ * If name is a group name it sends <sender_client_name>: <message> to all
+ * group members (except * the sender client).
  * Notes:
  *      * Only a group member can send message to the group.
- *      * The received name must be different than the sender name (i.e. it’s invalid to send
- *        message only to yourself).
+ *      * The received name must be different than the sender name (i.e. it’s
+ *      invalid to send
+ *      *  message only to yourself).
  * @param name the name of the group member to send to
  * @param msg the message to send
  */
@@ -236,9 +253,7 @@ void WhatsappClient::sendMsg(string name, string msg)
     {
         string toSend = "send " + name + " " + msg;
         toSend = setMsgLength(toSend) + toSend;
-        if (writeMsgToServer(socketId, toSend.c_str())){
-//        if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-//        {
+        if (writeMsgToServer(socketId, toSend.c_str()) < 0){
             cout << SEND_ERR << flush;
             return;
         }
@@ -260,16 +275,15 @@ void WhatsappClient::sendMsg(string name, string msg)
 }
 
 /**
- * Sends a request (to the server) to receive a list (might be empty) of currently connected
+ * Sends a request (to the server) to receive a list (might be empty) of
+ * currently connected
  * client names (alphabetically order), separated by comma without spaces.
  */
 void WhatsappClient::who()
 {
     string toSend = "who";
     toSend = setMsgLength(toSend) + toSend;
-    if (writeMsgToServer(socketId, toSend.c_str())){
-//    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-//    {
+    if (writeMsgToServer(socketId, toSend.c_str()) < 0){
         cout << WHO_ERR << flush;
         return;
     }
@@ -285,25 +299,22 @@ void WhatsappClient::who()
 }
 
 /**
- * Unregisters the client from the server and removes it from all groups. After the server
- * unregistered the client, the client should print “Unregistered successfully” and then exit(0).
+ * Unregisters the client from the server and removes it from all groups.
+ * After the server unregistered the client, the client should print
+ * “Unregistered successfully” and then exit(0).
  */
 void WhatsappClient::exit()
 {
     string toSend = "exit";
-//    *buf = temp.length() + " " + temp;
     toSend = setMsgLength(toSend) + toSend;
-    if (writeMsgToServer(socketId, toSend.c_str())){
-//    if(send(socketId, toSend.c_str(), strlen(toSend.c_str()), 0) < 0)
-//    {
-//        cout << "ERROR: unable to exit.\n" << flush;
+    if (writeMsgToServer(socketId, toSend.c_str()) < 0){
+        cout << "ERROR: unable to exit.\n" << flush;
         return;
     }
     char buffer[1000] = "";
 
     if (readMsg(socketId,buffer) < 0)
     {
-//        cout << "ERROR: unable to exit.\n" << flush;
         return;
     }
     getMsgFromSever(buffer);
@@ -398,14 +409,26 @@ int WhatsappClient::waitForConnection() {
         if (usingSelect < 0 && errno != EINTR)
         {
             cerr << "ERROR: select " << errno << ".\n" << flush;
+            close(socketId);
+            return -1;
         }
 
         /* the main socket has been called, else : one of the other sockets*/
         if (FD_ISSET(socketId, &fdSet))
         {
-//            char *msg = new char[1000];
+            int bytesAv = 0;
+            ioctl(socketId,FIONREAD,&bytesAv);
+
+            if (bytesAv == 0)
+            {
+                return -1;
+            }
             char msg[1000] = "";
-            readMsg(socketId, msg);
+            if (readMsg(socketId, msg) < 0)
+            {
+                close(socketId);
+                return -1;
+            }
             getMsgFromSever(msg);
         } else
         {
@@ -423,12 +446,10 @@ int WhatsappClient::waitForConnection() {
 int WhatsappClient::readMsg(int socketNum, char *buffer) {
 
     char * temp = new char[3];
-//    char temp[3] = "";
     char * pointerBuffer = temp;
 
     int bcount = 0;       /* counts bytes read */
     int br = 0;           /* bytes read this pass */
-    int found = 1;
 
     while (bcount < 3)
     {
@@ -447,7 +468,8 @@ int WhatsappClient::readMsg(int socketNum, char *buffer) {
     }
 
     int msgLength = atoi(pointerBuffer);
-//    delete [] temp;           /* todo delete */
+    temp = temp-3;
+    delete [] temp;
 
     bcount = 0;
 
@@ -464,10 +486,7 @@ int WhatsappClient::readMsg(int socketNum, char *buffer) {
     return bcount;
 }
 
-//bool WhatsappClient::isNotSpaceDigit(char c)
-//{
-//    return !(isalpha(c) || isdigit(c));
-//}
+
 int WhatsappClient::writeMsgToServer(int socketNum, const char *buffer) {
     int msgLength = strlen(buffer);
     int bcount = 0;       /* counts bytes read */
@@ -490,21 +509,25 @@ int main(int arg, char *argv[]) {
 
     if (arg != 4)
     {
-        cout << "Usage: whatsappClient clientName serverAddress serverPort" << flush;
+        cout << "Usage: whatsappClient clientName serverAddress serverPort" <<
+                                                                        flush;
         return -1;
     }
 
     string name = argv[1];
 
-    if (find_if(name.begin(), name.end(), isNotSpaceDigit) == (name.end()))
-    {
+    if (find_if(name.begin(), name.end(), isNotSpaceDigit) == (name.end())) {
         WhatsappClient client(argv[1], argv[2], argv[3]);
 
-        if (client.clientInit() < 0)
-        {
-            return 1;
+        if (client.clientInit() < 0) {
+
+            cout << "Failed to connect the server\n" << flush;
+            _exit(1);
         }
-        client.waitForConnection();
+        if (client.waitForConnection() < 0)
+        {
+            _exit(1);
+        }
     } else {
         cout << "ERROR: user name is invalid\n" << flush;
     }
