@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <netdb.h>
+#include <sys/ioctl.h>
 
 using namespace std;
 
@@ -134,8 +135,6 @@ private:
     string setMsgLength(string msg);
 
     int readMsg(int socketNum, char *buffer);
-
-//    bool isNotSpaceDigit(char c);
 
 
 };
