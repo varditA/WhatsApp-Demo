@@ -11,8 +11,6 @@ ClientInfo::~ClientInfo() {
     close(socketId);
 }
 
-void ClientInfo::deleteFromGroup(Group *group) {
-}
 
 void ClientInfo::deleteFromAllGroups() {
     for (auto& group: groups)
