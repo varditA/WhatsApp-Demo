@@ -16,12 +16,14 @@
 class Group;
 using namespace std;
 
+/* represents a client that connected by the server */
+
 class ClientInfo{
 
 private:
-    int socketId;
-    const string name;
-    vector <Group *> groups;
+    int socketId;               /* the client's socket num */
+    const string name;          /* the client's name */
+    vector <Group *> groups;    /* the client's groups */
 
 public:
     ClientInfo(int socket, const string name);
@@ -44,8 +46,6 @@ public:
     }
 
     void deleteFromAllGroups();
-
-    void deleteFromGroup(Group * group);
 
 
 
