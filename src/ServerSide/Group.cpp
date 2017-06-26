@@ -9,13 +9,14 @@ Group::Group(string groupName) {
 }
 
 int Group::setGroupMembers(vector <string> clientsNames,
-                            map<string, ClientInfo *> clients) {
+                            map<string, ClientInfo *> clientsInServer) {
+
     for (string name : clientsNames)
     {
-        const auto & clientFound = clients.find(name);
-        if (clientFound != clients.end())
+        const auto & clientFound = clientsInServer.find(name);
+        if (clientFound != clientsInServer.end())
         {
-            this->clients.insert(clientFound->second);
+            this->clientsInGroup.insert(clientFound->second);
             clientFound->second->addGroup(this);
         } else
         {
@@ -24,7 +25,8 @@ int Group::setGroupMembers(vector <string> clientsNames,
         }
     }
 
-    if (clients.size() < 2)
+
+    if (this->clientsInGroup.size() < 2)
     {
         return -1;
     }
@@ -34,13 +36,13 @@ int Group::setGroupMembers(vector <string> clientsNames,
 }
 
 set<ClientInfo*> Group::getGroupMember() {
-    return clients;
+    return clientsInGroup;
 }
 
 void Group::removeFromGroup(ClientInfo *client) {
-    clients.erase(client);
+    clientsInGroup.erase(client);
 }
 
 Group::~Group() {
-    clients.clear();
+    clientsInGroup.clear();
 }
