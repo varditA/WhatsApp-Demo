@@ -1,3 +1,0 @@
-/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/AdiYehezkeli/Documents/HUJI/OS/ex5/src/cmake-build-debug/CMakeFiles/src.dir
