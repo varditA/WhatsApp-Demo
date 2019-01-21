@@ -1,0 +1,8 @@
+Client to Server format:
+
+Client to Server : adding a new client by '<CLIENT_NAME>'
+Server to Client: added a new client by 'Connected successfully.'
+Server to Client: not added a new client by 'Failure in connection.'
+
+
+CHECK VALGRIND!!!
